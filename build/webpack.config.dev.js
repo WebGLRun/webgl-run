@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
 
 module.exports = {
   mode: 'development',
@@ -18,6 +19,28 @@ module.exports = {
             'babel-loader',
             'ts-loader'
         ]
+      },
+      {
+        test: /\.(css|scss|sass)$/,
+        loaders: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                autoprefixer({browsers: ['> 1%', 'ie >= 9', 'iOS >= 6', 'Android >= 2.1']})
+              ]
+            }
+          },
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|svg)(\?t=\d+)?$/,
+        loaders: [{
+          loader: 'url-loader?limit=8192'
+        }]
       }
     ]
   },

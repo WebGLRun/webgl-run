@@ -1,8 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Hello from './components/Hello'
+import Index from './components/Index/Index'
+
+import 'minireset.css'
 
 ReactDOM.render(
-  <Hello></Hello>,
+  <Index></Index>,
   document.getElementById('app')
 );
