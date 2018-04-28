@@ -1,13 +1,15 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
+import {setCSS} from '../../store/actions'
 import './CSSEditor.scss'
 
 interface CSSEditorProps {
-  content: string
+  content: string,
+  setCSS: Function
 }
 
 interface CSSEditorState {
-  editor: null | Object,
+  editor: any,
   timer: number
 }
 
@@ -16,8 +18,15 @@ const mapStateToProps = (state: RootState) => {
     content: state.editor.cssEditor.content
   }
 }
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    setCSS(css: string) {
+      dispatch(setCSS(css))
+    }
+  }
+}
 
-class CSSEditor extends React.Component<CSSEditorProps> {
+class CSSEditor extends React.Component<CSSEditorProps > {
 
   constructor(props: CSSEditorProps) {
     super(props)
@@ -48,10 +57,13 @@ class CSSEditor extends React.Component<CSSEditorProps> {
             enabled: false
           }
         })
+        this.state.editor.onDidChangeModelContent((e: any) => {
+          this.props.setCSS(this.state.editor.getValue())
+        })
         window.clearInterval(this.state.timer)
       }
     }, 200)
   }
 }
 
-export default connect(mapStateToProps)(CSSEditor)
+export default connect(mapStateToProps, mapDispatchToProps)(CSSEditor as any)

@@ -2,10 +2,14 @@ import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import Iframe from '../../utils/iframe'
 import {createElement} from '../../utils/createElement'
-import {} from '../../store/actions'
+import './Result.scss'
 
 interface ResultProps {
   result: string
+}
+
+interface ResultState {
+  iframe: null | Iframe
 }
 
 const mapStateToProps = (state: RootState) => {
@@ -20,7 +24,7 @@ class Result extends React.Component<ResultProps> {
     super(props)
   }
 
-  state = {
+  state: ResultState = {
     iframe: null
   }
 
@@ -29,7 +33,6 @@ class Result extends React.Component<ResultProps> {
       <div className="result-container editor-item">
         <header>Result</header>
         <div className="result-content">
-          <p>{this.props.result}</p>
           <div id="result-hook" ref="resultHook"></div>
         </div>
       </div>
@@ -37,23 +40,17 @@ class Result extends React.Component<ResultProps> {
   }
 
   componentDidMount() {
-    let iframe = new Iframe(this.refs.resultHook as HTMLElement)
-    this.setState({
-      iframe: iframe
-    })
-    iframe.setHTML(`<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <title>Webgl-playground Result</title>
-      </head>
-      <body>
-        <div class="test">test</div>
-      </body>
-    </html>
-    `)
+    this.state.iframe = new Iframe(this.refs.resultHook as HTMLElement)
+    this.state.iframe.setHTML(this.props.result)
   }
 
+  componentDidUpdate(prevProps: ResultProps) {
+    if(this.props.result !== prevProps.result) {
+      if(this.state.iframe) {
+        this.state.iframe.setHTML(this.props.result)
+      }
+    }
+  }
 }
 
 export default connect(mapStateToProps)(Result)

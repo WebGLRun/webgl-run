@@ -3,25 +3,19 @@ import thunk from 'redux-thunk'
 import update from 'immutability-helper'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import * as types from './types'
+import {generateResult} from '../utils/generateResult'
 const persistState = require('redux-localstorage')
 
 const initialState: RootState = {
   editor: {
     htmlEditor: {
-      content: `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Webgl-playground</title>
-  </head>
-  <body>
-    <div class="test">test</div>
-  </body>
-</html>`
+      content: `<div class="test">test</div>`,
+      test: 12345678
     },
     cssEditor: {
       content: `body {
-  background-color: #eee;
+  color: #d4d4d4;
+  background-color: #1E1E1E;
 }`
     },
     jsEditor: {
@@ -31,7 +25,25 @@ const initialState: RootState = {
     }
   },
   result: {
-    content: '123'
+    content: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Webgl-playground</title>
+    <style>body {
+      color: #d4d4d4;
+      background-color: #1E1E1E;
+    }</style>
+  </head>
+  <body>
+    <div class="test">test</div>
+    <script>
+      function x() {
+        console.log("Hello world!");
+      }
+    </script>
+  </body>
+</html>`
   }
 }
 
@@ -70,11 +82,17 @@ const reducer = (state: RootState = initialState, action: Action) => {
         }
       })
     }
-    case(types.SET_RESULT_CONTENT): {
+    case(types.UPDATE_RESULT): {
+      let result = generateResult({
+        html: state.editor.htmlEditor.content,
+        css: state.editor.cssEditor.content,
+        js: state.editor.jsEditor.content
+      })
+      console.log('new result:', result)
       return update(state, {
         result: {
           content: {
-            $set: action.result
+            $set: result
           }
         }
       })

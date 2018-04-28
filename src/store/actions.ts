@@ -2,37 +2,37 @@ import * as types from './types'
 import { Dispatch } from 'react-redux';
 
 export function setHTML(html: string) {
-  return function(dispatch: Dispatch, getState: Function) {
-    dispatch({
+  return async function(dispatch: Dispatch) {
+    await dispatch({
       type: types.SET_HTMLEDITOR_CONTENT,
       html
     })
-    dispatch({
-      type: types.SET_RESULT_CONTENT
+    await dispatch({
+      type: types.UPDATE_RESULT
     })
   }
 }
 
 export function setCSS(css: string) {
-  return function(dispatch: Dispatch, getState: Function) {
-    dispatch({
-      type: types.SET_HTMLEDITOR_CONTENT,
+  return async function(dispatch: Dispatch) {
+    await dispatch({
+      type: types.SET_CSSEDITOR_CONTENT,
       css
     })
-    dispatch({
-      type: types.SET_RESULT_CONTENT
+    await dispatch({
+      type: types.UPDATE_RESULT
     })
   }
 }
 
 export function setJS(js: string) {
-  return function(dispatch: Dispatch, getState: Function) {
-    dispatch({
-      type: types.SET_HTMLEDITOR_CONTENT,
+  return async function(dispatch: Dispatch) {
+    await dispatch({
+      type: types.SET_JSEDITOR_CONTENT,
       js
     })
-    dispatch({
-      type: types.SET_RESULT_CONTENT
+    await dispatch({
+      type: types.UPDATE_RESULT
     })
   }
 }

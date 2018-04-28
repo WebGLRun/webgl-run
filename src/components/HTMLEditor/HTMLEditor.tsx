@@ -1,19 +1,29 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
+import {setHTML} from '../../store/actions'
 import './HTMLEditor.scss'
 
 interface HTMLEditorProps {
-  content: string
+  content: string,
+  setHTML: Function
 }
 
 interface HTMLEditorStates {
-  editor: null | Monaco,
+  editor: any,
   timer: number
 }
 
 const mapStateToProps = (state: RootState) => {
   return {
     content: state.editor.htmlEditor.content
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    setHTML(html: string) {
+      dispatch(setHTML(html))
+    }
   }
 }
 
@@ -47,10 +57,13 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
             enabled: false
           }
         })
+        this.state.editor.onDidChangeModelContent((e: any) => {
+          this.props.setHTML(this.state.editor.getValue())
+        })
         window.clearInterval(this.state.timer)
       }
     }, 200)
   }
 }
 
-export default connect(mapStateToProps)(HTMLEditor)
+export default connect(mapStateToProps, mapDispatchToProps)(HTMLEditor as any)

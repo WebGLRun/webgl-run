@@ -7,7 +7,8 @@ interface Monaco {
 interface RootState {
   editor: {
     htmlEditor: {
-      content: string
+      content: string,
+      test: number
     },
     cssEditor: {
       content: string
