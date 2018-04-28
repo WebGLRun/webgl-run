@@ -1,13 +1,17 @@
 'use strict'
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const autoprefixer = require('autoprefixer')
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, '../src/index.tsx'),
+  entry: {
+    'app': path.resolve(__dirname, '../src/index.tsx')
+  },
   output: {
-    filename: 'bundle.js',
+    globalObject: 'self',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, '../dist')
   },
   module: {
@@ -55,11 +59,18 @@ module.exports = {
     compress: true,
     disableHostCheck: false
   },
+  externals: {
+    monaco: 'window.monaco'
+  },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.html',
       inject: true
-    })
-  ]
+    }),
+    new webpack.IgnorePlugin(/^((fs)|(path)|(os)|(crypto)|(source-map-support))$/, /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/)
+  ],
+  node: {
+    fs: 'empty'
+  }
 }
