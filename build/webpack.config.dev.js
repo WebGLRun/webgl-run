@@ -3,6 +3,8 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const autoprefixer = require('autoprefixer')
+const CleanPlugin = require('clean-webpack-plugin')
+const WebpackShellPlugin = require('webpack-shell-plugin')
 
 module.exports = {
   mode: 'development',
@@ -57,16 +59,23 @@ module.exports = {
     host: '127.0.0.1',
     https: false,
     compress: true,
-    disableHostCheck: false
+    disableHostCheck: false,
+    contentBase: path.resolve(__dirname, '../dist'),
   },
   externals: {
     monaco: 'window.monaco'
   },
   plugins: [
+    new CleanPlugin(['dist'], {
+      root: path.resolve(__dirname, '../'),
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.html',
       inject: true
+    }),
+    new WebpackShellPlugin({
+      onBuildExit: ['sh build/helper.sh']
     }),
     new webpack.IgnorePlugin(/^((fs)|(path)|(os)|(crypto)|(source-map-support))$/, /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/)
   ],

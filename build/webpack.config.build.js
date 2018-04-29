@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const autoprefixer = require('autoprefixer')
 const CleanPlugin = require('clean-webpack-plugin')
+const WebpackShellPlugin = require('webpack-shell-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
@@ -61,6 +62,9 @@ module.exports = {
       filename: 'index.html',
       template: 'src/index.html',
       inject: true
+    }),
+    new WebpackShellPlugin({
+      onBuildExit: ['sh build/helper.sh']
     }),
     new webpack.IgnorePlugin(/^((fs)|(path)|(os)|(crypto)|(source-map-support))$/, /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/),
     new BundleAnalyzerPlugin()
