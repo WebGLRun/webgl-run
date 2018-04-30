@@ -1,11 +1,12 @@
 .editor-container {
   display: flex;
   width: 100%;
-  background-color: #1e1e1e;
 
   .editor-item {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    background-color: #1e1e1e;
 
     &>header {
       padding-left: 30px;
@@ -18,13 +19,12 @@
   }
 
   .editor-left-panel {
-    flex: 1;
     display: flex;
     flex-direction: column;
     width: 0;
 
     .editor-left-top-panel {
-      height: 250px;
+      height: 200px;
       flex: none;
     }
 
@@ -35,33 +35,64 @@
   }
 
   .editor-right-panel {
-    flex: 1;
     display: flex;
     flex-direction: column;
     width: 0;
+    flex: 1;
 
     .editor-right-top-panel {
-      height: 250px;
+      height: 200px;
       flex: none;
     }
 
     .editor-right-bottom-panel {
+      position: relative;
       flex: 1;
       height: 0;
+
+      .editor-result-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
     }
   }
 
   .editor-vertical-divider {
+    position: relative;
     width: 1px;
     flex: none;
     height: 100%;
     background-color: #555;
+    cursor: col-resize;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      left: -2px;
+    }
   }
 
   .editor-horizontal-divider {
+    position: relative;
     height: 1px;
     flex: none;
     width: 100%;
     background-color: #555;
+    cursor: row-resize;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 5px;
+      top: -2px;
+    }
   }
 }
