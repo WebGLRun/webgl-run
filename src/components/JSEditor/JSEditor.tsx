@@ -44,6 +44,7 @@ class JSEditor extends React.Component<JSEditorProps> {
           value: this.props.content,
           language: 'javascript',
           theme: 'vs-dark',
+          automaticLayout: true,
           minimap: {
             enabled: false
           }

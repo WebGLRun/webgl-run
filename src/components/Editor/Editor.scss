@@ -21,6 +21,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    width: 0;
 
     .editor-left-top-panel {
       height: 250px;
@@ -29,6 +30,7 @@
 
     .editor-left-bottom-panel {
       flex: 1;
+      height: 0;
     }
   }
 
@@ -36,6 +38,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    width: 0;
 
     .editor-right-top-panel {
       height: 250px;
@@ -44,6 +47,7 @@
 
     .editor-right-bottom-panel {
       flex: 1;
+      height: 0;
     }
   }
 

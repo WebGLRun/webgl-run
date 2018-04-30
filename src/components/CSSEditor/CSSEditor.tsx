@@ -55,7 +55,8 @@ class CSSEditor extends React.Component<CSSEditorProps > {
           theme: 'vs-dark',
           minimap: {
             enabled: false
-          }
+          },
+          automaticLayout: true
         })
         this.state.editor.onDidChangeModelContent((e: any) => {
           this.props.setCSS(this.state.editor.getValue())

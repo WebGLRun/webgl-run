@@ -49,18 +49,22 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
   componentDidMount() {
     this.state.timer = window.setInterval(() => {
       if((window as any).monaco) {
+        window.clearInterval(this.state.timer)
         this.state.editor = (window as any).monaco.editor.create(document.getElementById('htmleditor') as HTMLElement, {
           value: this.props.content,
           language: 'html',
           theme: 'vs-dark',
           minimap: {
             enabled: false
-          }
+          },
+          automaticLayout: true,
         })
+        setTimeout(() => {
+          (window as any)['emmet-monaco'].enableEmmet(this.state.editor, (window as any).emmet)
+        }, 0)
         this.state.editor.onDidChangeModelContent((e: any) => {
           this.props.setHTML(this.state.editor.getValue())
         })
-        window.clearInterval(this.state.timer)
       }
     }, 200)
   }
