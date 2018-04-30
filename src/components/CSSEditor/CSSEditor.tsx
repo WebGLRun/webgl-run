@@ -49,6 +49,7 @@ class CSSEditor extends React.Component<CSSEditorProps > {
   componentDidMount() {
     this.state.timer = window.setInterval(() => {
       if((window as any).monaco) {
+        window.clearInterval(this.state.timer)
         this.state.editor = (window as any).monaco.editor.create(document.getElementById('csseditor') as HTMLElement, {
           value: this.props.content,
           language: 'css',
@@ -61,7 +62,9 @@ class CSSEditor extends React.Component<CSSEditorProps > {
         this.state.editor.onDidChangeModelContent((e: any) => {
           this.props.setCSS(this.state.editor.getValue())
         })
-        window.clearInterval(this.state.timer)
+        this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
+          this.state.editor.trigger('anyString', 'editor.action.quickCommand')
+        })
       }
     }, 200)
   }

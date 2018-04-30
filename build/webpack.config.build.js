@@ -44,6 +44,22 @@ module.exports = {
         ]
       },
       {
+        test: /\.less$/,
+        loaders: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                autoprefixer({browsers: ['> 1%', 'ie >= 9', 'iOS >= 6', 'Android >= 2.1']})
+              ]
+            }
+          },
+          'less-loader'
+        ]
+      },
+      {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|svg)(\?t=\d+)?$/,
         loaders: [{
           loader: 'url-loader?limit=8192'

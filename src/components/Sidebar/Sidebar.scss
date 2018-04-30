@@ -1,0 +1,33 @@
+.sidebar-container {
+  width: 200px;
+  flex: none;
+  background-color: #1e1e1e;
+
+  .ant-menu-root {
+    height: 100%;
+    background-color: #1e1e1e;
+    border-right: 1px solid #555;
+
+    .ant-menu-sub {
+      background-color: #1e1e1e;
+    }
+    .ant-menu-submenu-title {
+      color: #d4d4d4;
+      height: 36px;
+      line-height: 36px;
+    }
+    .ant-menu-item-group-title {
+      color: #d4d4d4;
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+    .ant-menu-item {
+      color: #d4d4d4;
+      height: 32px;
+      line-height: 32px;
+    }
+    .ant-menu-item-selected {
+      background-color: #2e2e2e;
+    }
+  }
+}

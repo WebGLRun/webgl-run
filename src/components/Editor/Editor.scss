@@ -1,12 +1,12 @@
 .editor-container {
   display: flex;
-  width: 100%;
+  flex: 1;
 
   .editor-item {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     background-color: #1e1e1e;
+    overflow: hidden;
 
     &>header {
       padding-left: 30px;

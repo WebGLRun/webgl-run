@@ -1,8 +1,25 @@
 .nav-container {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
   height: 50px;
   background-color: #121212;
   color: #ccc;
+
+  .nav-brand {
+    font-size: 16px;
+    margin-left: 30px;
+  }
+
+  .title {
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

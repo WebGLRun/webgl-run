@@ -7,7 +7,7 @@ interface JSEditorProps {
 }
 
 interface JSEditorStates {
-  editor: null | Object,
+  editor: any,
   timer: number
 }
 
@@ -40,6 +40,7 @@ class JSEditor extends React.Component<JSEditorProps> {
   componentDidMount() {
     this.state.timer = window.setInterval(() => {
       if((window as any).monaco) {
+        window.clearInterval(this.state.timer)
         this.state.editor = (window as any).monaco.editor.create(document.getElementById('jseditor') as HTMLElement, {
           value: this.props.content,
           language: 'javascript',
@@ -49,7 +50,9 @@ class JSEditor extends React.Component<JSEditorProps> {
             enabled: false
           }
         })
-        window.clearInterval(this.state.timer)
+        this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
+          this.state.editor.trigger('anyString', 'editor.action.quickCommand')
+        })
       }
     }, 200)
   }

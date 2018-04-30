@@ -57,13 +57,16 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
           minimap: {
             enabled: false
           },
-          automaticLayout: true,
+          automaticLayout: true
         })
         setTimeout(() => {
           (window as any)['emmet-monaco'].enableEmmet(this.state.editor, (window as any).emmet)
         }, 0)
         this.state.editor.onDidChangeModelContent((e: any) => {
           this.props.setHTML(this.state.editor.getValue())
+        })
+        this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
+          this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
       }
     }, 200)

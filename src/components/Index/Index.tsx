@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Editor from '../Editor/Editor'
 import Nav from '../Nav/Nav'
+import Sidebar from '../Sidebar/Sidebar'
 import './Index.scss'
 
 class Index extends React.Component {
@@ -11,7 +12,7 @@ class Index extends React.Component {
           <Nav></Nav>
         </div>
         <div className="body">
-          <div className="sidebar"></div>
+          <Sidebar></Sidebar>
           <Editor></Editor>
         </div>
       </div>
