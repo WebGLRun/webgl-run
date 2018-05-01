@@ -3,7 +3,7 @@ import {connect, Dispatch} from 'react-redux'
 import {Menu} from 'antd'
 import data from '../../data/data'
 import {initEditor, clearEditor, setSelected} from '../../store/actions'
-import 'antd/lib/menu/style'
+import 'antd/lib/menu/style/index.css'
 import './Sidebar.scss'
 import { ClickParam } from 'antd/lib/menu'
 

@@ -2,6 +2,8 @@
   "compilerOptions": {
     "outDir": "./built",
     "target": "es5",
+    "module": "es6",
+    "moduleResolution": "node",
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
