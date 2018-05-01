@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     globalObject: 'self',
-    filename: '[name].bundle.js',
+    filename: '[name].bundle.[hash:8].js',
     path: path.resolve(__dirname, '../dist')
   },
   module: {
