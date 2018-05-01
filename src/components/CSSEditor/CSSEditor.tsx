@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import {setCSS} from '../../store/actions'
+const debounce = require('lodash.debounce')
 import './CSSEditor.scss'
 
 interface CSSEditorProps {
@@ -59,9 +60,7 @@ class CSSEditor extends React.Component<CSSEditorProps > {
           },
           automaticLayout: true
         })
-        this.state.editor.onDidChangeModelContent((e: any) => {
-          this.props.setCSS(this.state.editor.getValue())
-        })
+        this.state.editor.onDidChangeModelContent(debounce(this.setCSS, 1000))
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
           this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
@@ -69,8 +68,15 @@ class CSSEditor extends React.Component<CSSEditorProps > {
     }, 200)
   }
 
+  setCSS = () => {
+    this.props.setCSS(this.state.editor.getValue())
+  }
+
+  shouldComponentUpdate(nextProps: CSSEditorProps) {
+    return nextProps.content !== this.state.editor.getValue()
+  }
+
   componentDidUpdate() {
-    console.log(this.props.content)
     this.state.editor.setValue(this.props.content)
   }
 }

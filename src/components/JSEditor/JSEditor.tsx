@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import {setJS} from '../../store/actions'
+const debounce = require('lodash.debounce')
 import './JSEditor.scss'
 
 interface JSEditorProps {
@@ -60,14 +61,20 @@ class JSEditor extends React.Component<JSEditorProps> {
             enabled: false
           }
         })
-        this.state.editor.onDidChangeModelContent((e: any) => {
-          this.props.setJS(this.state.editor.getValue())
-        })
+        this.state.editor.onDidChangeModelContent(debounce(this.setJS, 1000))
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
           this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
       }
     }, 200)
+  }
+
+  setJS = () => {
+    this.props.setJS(this.state.editor.getValue())
+  }
+
+  shouldComponentUpdate(nextProps: JSEditorProps) {
+    return nextProps.content !== this.state.editor.getValue()
   }
 
   componentDidUpdate() {

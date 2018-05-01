@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import {setHTML} from '../../store/actions'
+const debounce = require('lodash.debounce')
 import './HTMLEditor.scss'
 
 interface HTMLEditorProps {
@@ -46,6 +47,7 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
       </div>
     )
   }
+
   componentDidMount() {
     this.state.timer = window.setInterval(() => {
       if((window as any).monaco) {
@@ -62,14 +64,20 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
         setTimeout(() => {
           (window as any)['emmet-monaco'].enableEmmet(this.state.editor, (window as any).emmet)
         }, 0)
-        this.state.editor.onDidChangeModelContent((e: any) => {
-          this.props.setHTML(this.state.editor.getValue())
-        })
+        this.state.editor.onDidChangeModelContent(debounce(this.setHTML, 1000))
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
           this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
       }
     }, 200)
+  }
+
+  setHTML = () => {
+    this.props.setHTML(this.state.editor.getValue())
+  }
+
+  shouldComponentUpdate(nextProps: HTMLEditorProps) {
+    return nextProps.content !== this.state.editor.getValue()
   }
 
   componentDidUpdate() {
