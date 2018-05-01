@@ -2,7 +2,7 @@ import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import {Menu} from 'antd'
 import data from '../../data/data'
-import {initEditor, clearEditor, setSelected} from '../../store/actions'
+import {initEditor, clearEditor, setSelected, updateResult} from '../../store/actions'
 import 'antd/lib/menu/style/index.css'
 import './Sidebar.scss'
 import { ClickParam } from 'antd/lib/menu'
@@ -17,7 +17,8 @@ interface SidebarProps {
   }
   clearEditor: Function,
   initEditor: Function,
-  setSelected: Function
+  setSelected: Function,
+  updateResult: Function
 }
 
 const mapStateToProps = (state: RootState) => {
@@ -36,6 +37,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     setSelected(selected: object) {
       return dispatch(setSelected(selected))
+    },
+    updateResult() {
+      return dispatch(updateResult())
     }
   }
 }
@@ -46,7 +50,7 @@ class Sidebar extends React.Component<SidebarProps> {
     super(props)
   }
 
-  itemClickHandler = (param: ClickParam) => {
+  itemClickHandler = async (param: ClickParam) => {
     let subMenu = data.find((e: any) => e.title === param.keyPath[1])
     if(subMenu) {
       let file
@@ -54,7 +58,8 @@ class Sidebar extends React.Component<SidebarProps> {
         file = e.children.find((e: any) => e.title === param.keyPath[0])
       })
       if(file) {
-        this.loadFile(file)
+        await this.loadFile(file)
+        this.props.updateResult()
         this.props.setSelected({
           sub: param.keyPath[1],
           item: param.keyPath[0]
@@ -80,11 +85,27 @@ class Sidebar extends React.Component<SidebarProps> {
     })
     return (
       <div className="sidebar-container">
-        <Menu defaultSelectedKeys={[this.props.selected.item]} defaultOpenKeys={[this.props.selected.sub]} onClick={this.itemClickHandler} mode="inline">
+        <Menu selectedKeys={[this.props.selected.item]} openKeys={[this.props.selected.sub]} onClick={this.itemClickHandler} mode="inline">
           {subMenus}
         </Menu>
       </div>
     )
+  }
+
+  componentWillMount() {
+    if(!this.props.selected.item) {
+      this.loadFile(data[0].children[0].children[0] as File)
+      this.props.setSelected({
+        sub: data[0].title,
+        item: data[0].children[0].children[0].title
+      })
+      let timer = window.setInterval(() => {
+        if((window as any).ts) {
+          this.props.updateResult()
+          window.clearInterval(timer)
+        }
+      }, 200)
+    }
   }
 }
 

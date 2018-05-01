@@ -1,12 +1,13 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
-import {setHTML} from '../../store/actions'
+import {setHTML, updateResult} from '../../store/actions'
 const debounce = require('lodash.debounce')
 import './HTMLEditor.scss'
 
 interface HTMLEditorProps {
   content: string,
-  setHTML: Function
+  setHTML: Function,
+  updateResult: Function
 }
 
 interface HTMLEditorStates {
@@ -24,6 +25,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     setHTML(html: string) {
       dispatch(setHTML(html))
+    },
+    updateResult() {
+      dispatch(updateResult())
     }
   }
 }
@@ -64,7 +68,7 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
         setTimeout(() => {
           (window as any)['emmet-monaco'].enableEmmet(this.state.editor, (window as any).emmet)
         }, 0)
-        this.state.editor.onDidChangeModelContent(debounce(this.setHTML, 1000))
+        this.state.editor.onDidChangeModelContent(this.modelDidChangeHandler)
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
           this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
@@ -72,12 +76,19 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
     }, 200)
   }
 
-  setHTML = () => {
-    this.props.setHTML(this.state.editor.getValue())
+  modelDidChangeHandler = () => {
+    if(this.props.content !== this.state.editor.getValue()) {
+      this.setHTML()
+    }
   }
 
+  setHTML = debounce(() => {
+    this.props.setHTML(this.state.editor.getValue())
+    this.props.updateResult()
+  }, 1000)
+
   shouldComponentUpdate(nextProps: HTMLEditorProps) {
-    return nextProps.content !== this.state.editor.getValue()
+    return this.state.editor && nextProps.content !== this.state.editor.getValue()
   }
 
   componentDidUpdate() {

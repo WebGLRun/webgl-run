@@ -1,12 +1,13 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
-import {setCSS} from '../../store/actions'
+import {setCSS, updateResult} from '../../store/actions'
 const debounce = require('lodash.debounce')
 import './CSSEditor.scss'
 
 interface CSSEditorProps {
   content: string,
-  setCSS: Function
+  setCSS: Function,
+  updateResult: Function
 }
 
 interface CSSEditorState {
@@ -23,6 +24,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     setCSS(css: string) {
       dispatch(setCSS(css))
+    },
+    updateResult() {
+      dispatch(updateResult())
     }
   }
 }
@@ -60,7 +64,7 @@ class CSSEditor extends React.Component<CSSEditorProps > {
           },
           automaticLayout: true
         })
-        this.state.editor.onDidChangeModelContent(debounce(this.setCSS, 1000))
+        this.state.editor.onDidChangeModelContent(this.modelDidChangeHandler)
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
           this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
@@ -68,12 +72,19 @@ class CSSEditor extends React.Component<CSSEditorProps > {
     }, 200)
   }
 
-  setCSS = () => {
-    this.props.setCSS(this.state.editor.getValue())
+  modelDidChangeHandler = () => {
+    if(this.props.content !== this.state.editor.getValue()) {
+      this.setCSS()
+    }
   }
 
+  setCSS = debounce(() => {
+    this.props.setCSS(this.state.editor.getValue())
+    this.props.updateResult()
+  }, 1000)
+
   shouldComponentUpdate(nextProps: CSSEditorProps) {
-    return nextProps.content !== this.state.editor.getValue()
+    return this.state.editor && nextProps.content !== this.state.editor.getValue()
   }
 
   componentDidUpdate() {

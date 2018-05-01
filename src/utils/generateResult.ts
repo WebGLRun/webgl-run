@@ -9,7 +9,20 @@ const htmlTemplate = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Webgl-playground</title>
+    <title>WebGL Playground</title>
+    <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0"></script>
+    <script>
+      var vConsole = new VConsole({defaultPlugins: []})
+      var myPlugin = new VConsole.VConsolePlugin('my_plugin', 'My Plugin')
+      vConsole.addPlugin(myPlugin)
+      myPlugin.on('showConsole', function() {window.parent.showConsole()})
+      myPlugin.on('hideConsole', function() {window.parent.hideConsole()})
+    </script>
+    <style>
+      #__vconsole .vc-mask {display: none!important}
+      #__vconsole .vc-panel {min-height: 250px; transition: none!important;}
+      #__vconsole .vc-switch {display: none;}
+    </style>
     <style>{{css}}</style>
   </head>
   <body>

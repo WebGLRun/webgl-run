@@ -10,45 +10,22 @@ const persistState = require('redux-sessionstorage')
 const initialState: RootState = {
   title: 'Default Title',
   selected: {
-    sub: data[0].title,
-    item: data[0].children[0].children[0].title
+    sub: '',
+    item: ''
   },
   editor: {
     htmlEditor: {
-      content: `<div class="test">test</div>`
+      content: ``
     },
     cssEditor: {
-      content: `body {
-  color: #d4d4d4;
-  background-color: #1E1E1E;
-}`
+      content: ``
     },
     jsEditor: {
-      content: `function x() {
-  console.log("Hello world!");
-}`
+      content: ``
     }
   },
   result: {
-    content: `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Webgl-playground</title>
-    <style>body {
-      color: #d4d4d4;
-      background-color: #1E1E1E;
-    }</style>
-  </head>
-  <body>
-    <div class="test">test</div>
-    <script>
-      function x() {
-        console.log("Hello world!");
-      }
-    </script>
-  </body>
-</html>`
+    content: ``
   }
 }
 

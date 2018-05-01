@@ -27,6 +27,7 @@ class Iframe {
     iframe.style.width = '100%'
     iframe.style.height = '100%'
     iframe.style.border = '0'
+    iframe.id = "result"
     return iframe
   }
 }

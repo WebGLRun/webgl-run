@@ -9,38 +9,23 @@ export function setTitle(title: string) {
 }
 
 export function setHTML(html: string) {
-  return async function(dispatch: Dispatch) {
-    await dispatch({
-      type: types.SET_HTMLEDITOR_CONTENT,
-      html
-    })
-    await dispatch({
-      type: types.UPDATE_RESULT
-    })
+  return {
+    type: types.SET_HTMLEDITOR_CONTENT,
+    html
   }
 }
 
 export function setCSS(css: string) {
-  return async function(dispatch: Dispatch) {
-    await dispatch({
-      type: types.SET_CSSEDITOR_CONTENT,
-      css
-    })
-    await dispatch({
-      type: types.UPDATE_RESULT
-    })
+  return {
+    type: types.SET_CSSEDITOR_CONTENT,
+    css
   }
 }
 
 export function setJS(js: string) {
-  return async function(dispatch: Dispatch) {
-    await dispatch({
-      type: types.SET_JSEDITOR_CONTENT,
-      js
-    })
-    await dispatch({
-      type: types.UPDATE_RESULT
-    })
+  return {
+    type: types.SET_JSEDITOR_CONTENT,
+    js
   }
 }
 
@@ -54,41 +39,23 @@ export function setSelected(selected: Object) {
 export function initEditor(file: File) {
   return async function(dispatch: Dispatch) {
     await dispatch(setTitle(file.title))
-    await dispatch({
-      type: types.SET_HTMLEDITOR_CONTENT,
-      html: file.content.html
-    })
-    await dispatch({
-      type: types.SET_CSSEDITOR_CONTENT,
-      css: file.content.css
-    })
-    await dispatch({
-      type: types.SET_JSEDITOR_CONTENT,
-      js: file.content.js
-    })
-    await dispatch({
-      type: types.UPDATE_RESULT
-    })
+    await dispatch(setHTML(file.content.html))
+    await dispatch(setCSS(file.content.css))
+    await dispatch(setJS(file.content.js))
   }
 }
 
 export function clearEditor() {
   return async function(dispatch: Dispatch) {
     await dispatch(setTitle(''))
-    await dispatch({
-      type: types.SET_HTMLEDITOR_CONTENT,
-      html: ''
-    })
-    await dispatch({
-      type: types.SET_CSSEDITOR_CONTENT,
-      css: ''
-    })
-    await dispatch({
-      type: types.SET_JSEDITOR_CONTENT,
-      js: ''
-    })
-    await dispatch({
-      type: types.UPDATE_RESULT
-    })
+    await dispatch(setHTML(''))
+    await dispatch(setCSS(''))
+    await dispatch(setJS(''))
+  }
+}
+
+export function updateResult() {
+  return {
+    type: types.UPDATE_RESULT
   }
 }
