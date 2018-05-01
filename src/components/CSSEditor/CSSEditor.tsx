@@ -68,6 +68,11 @@ class CSSEditor extends React.Component<CSSEditorProps > {
       }
     }, 200)
   }
+
+  componentDidUpdate() {
+    console.log(this.props.content)
+    this.state.editor.setValue(this.props.content)
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CSSEditor as any)

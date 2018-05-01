@@ -4,13 +4,18 @@ import update from 'immutability-helper'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import * as types from './types'
 import {generateResult} from '../utils/generateResult'
-const persistState = require('redux-localstorage')
+import data from '../data/data'
+const persistState = require('redux-sessionstorage')
 
 const initialState: RootState = {
+  title: 'Default Title',
+  selected: {
+    sub: data[0].title,
+    item: data[0].children[0].children[0].title
+  },
   editor: {
     htmlEditor: {
-      content: `<div class="test">test</div>`,
-      test: 12345678
+      content: `<div class="test">test</div>`
     },
     cssEditor: {
       content: `body {
@@ -49,6 +54,13 @@ const initialState: RootState = {
 
 const reducer = (state: RootState = initialState, action: Action) => {
   switch(action.type) {
+    case(types.SET_TITLE): {
+      return update(state, {
+        title: {
+          $set: action.title
+        }
+      })
+    }
     case(types.SET_HTMLEDITOR_CONTENT): {
       return update(state, {
         editor: {
@@ -82,13 +94,19 @@ const reducer = (state: RootState = initialState, action: Action) => {
         }
       })
     }
+    case(types.SET_SELECTED): {
+      return update(state, {
+        selected: {
+          $set: action.selected
+        }
+      })
+    }
     case(types.UPDATE_RESULT): {
       let result = generateResult({
         html: state.editor.htmlEditor.content,
         css: state.editor.cssEditor.content,
         js: state.editor.jsEditor.content
       })
-      console.log('new result:', result)
       return update(state, {
         result: {
           content: {

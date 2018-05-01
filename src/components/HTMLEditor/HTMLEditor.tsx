@@ -71,6 +71,10 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
       }
     }, 200)
   }
+
+  componentDidUpdate() {
+    this.state.editor.setValue(this.props.content)
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HTMLEditor as any)
