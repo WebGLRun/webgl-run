@@ -105,7 +105,7 @@ const reducer = (state: RootState = initialState, action: Action) => {
       let result = generateResult({
         html: state.editor.htmlEditor.content,
         css: state.editor.cssEditor.content,
-        js: state.editor.jsEditor.content
+        js: (window as any).ts.transpile(state.editor.jsEditor.content)
       })
       return update(state, {
         result: {
