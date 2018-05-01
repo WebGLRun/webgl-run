@@ -10,7 +10,7 @@ const htmlTemplate = `<!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
     <title>WebGL Playground</title>
-    <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0"></script>
+    <script src="https://webgl.404forest.com/assets/js/vconsole.min.js?v=3.2.0"></script>
     <script>
       var vConsole = new VConsole({defaultPlugins: []})
       var myPlugin = new VConsole.VConsolePlugin('my_plugin', 'My Plugin')
