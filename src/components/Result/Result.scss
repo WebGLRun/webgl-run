@@ -8,6 +8,12 @@
     cursor: pointer;
   }
 
+  .icon-refresh {
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
   .icon-console.active:before {
     outline: 1px solid #999;
     outline-offset: 2px;

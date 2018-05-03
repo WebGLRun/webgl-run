@@ -1,28 +1,74 @@
 import * as React from 'react'
+import { connect, Dispatch } from 'react-redux'
 import JSEditor from '../JSEditor/JSEditor'
 import HTMLEditor from '../HTMLEditor/HTMLEditor'
 import CSSEditor from '../CSSEditor/CSSEditor'
 import GLSLEditor from '../GLSLEditor/GLSLEditor'
 import Result from '../Result/Result'
+import {setVerticalDividerPosition, setLeftHorizontalDividerPosition, setRightHorizontalDividerPosition} from '../../store/actions'
 import './Editor.scss'
 
-interface EditorProps {}
+interface EditorProps {
+  verticalDivider: number,
+  leftHorizontalDivider: {
+    [propName: number]: number
+  },
+  rightHorizontalDivider: {
+    [propName: number]: number
+  },
+  setVerticalDividerPosition: Function,
+  setLeftHorizontalDividerPosition: Function,
+  setRightHorizontalDividerPosition: Function
+}
 
-class Editor extends React.Component {
+interface EditorStates {
+  leftPanelStyle: {
+    flex: number
+  },
+  activeIndex: number,
+  [propName: string]: any
+}
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    verticalDivider: state.dividerPosition.verticalDivider,
+    leftHorizontalDivider: state.dividerPosition.leftHorizontalDivider,
+    rightHorizontalDivider: state.dividerPosition.rightHorizontalDivider
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    setVerticalDividerPosition(position: number) {
+      return dispatch(setVerticalDividerPosition(position))
+    },
+    setLeftHorizontalDividerPosition(index: number, position: number) {
+      return dispatch(setLeftHorizontalDividerPosition(index, position))
+    },
+    setRightHorizontalDividerPosition(index: number, position: number) {
+      return dispatch(setRightHorizontalDividerPosition(index, position))
+    }
+  }
+}
+
+class Editor extends React.Component<EditorProps> {
 
   constructor(props: EditorProps) {
     super(props)
   }
 
   leftPanelRef: any
-  leftTopPanelRef: any
-  rightTopPanelRef: any
-  state = {
+  leftPanelRefs: {
+    [propName: number]: any
+  } = {}
+  rightPanelRefs: {
+    [propName: number]: any
+  } = {}
+  state: EditorStates = {
     leftPanelStyle: {
       flex: 1
     },
-    leftTopPanelStyle: {},
-    rightTopPanelStyle: {},
+    activeIndex: -1,
     dragStatus: {
       verticalDragging: false,
       leftHorizontalDragging: false,
@@ -40,7 +86,8 @@ class Editor extends React.Component {
         rightHorizontalDragging: false,
         startMouseValue: e.screenX,
         startDOMValue: this.leftPanelRef.getBoundingClientRect().width
-      }
+      },
+      activeIndex: 0
     })
   }
 
@@ -50,12 +97,7 @@ class Editor extends React.Component {
       if(width < 30) {
         width = 30
       }
-      this.setState({
-        leftPanelStyle: {
-          ...this.state.leftPanelStyle,
-          width
-        }
-      })
+      this.props.setVerticalDividerPosition(width)
     }
   }
 
@@ -68,87 +110,88 @@ class Editor extends React.Component {
           rightHorizontalDragging: false,
           startDOMValue: -1,
           startMouseValue: -1
-        }
+        },
+        activeIndex: -1
       })
     }
   }
 
-  left1HorizontalDividerMouseDownHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+  leftHorizontalDividerMouseDownHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     this.setState({
-      dragStatus: {
+      [`dragStatus-${index}`]: {
         verticalDragging: false,
         leftHorizontalDragging: true,
         rightHorizontalDragging: false,
         startMouseValue: e.screenY,
-        startDOMValue: this.leftTopPanelRef.getBoundingClientRect().height
-      }
+        startDOMValue: this.leftPanelRefs[index].getBoundingClientRect().height
+      },
+      activeIndex: index
     })
   }
 
-  left1HorizontalDividerMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    let height: number = e.screenY - this.state.dragStatus.startMouseValue + this.state.dragStatus.startDOMValue
-    if(height < 12) {
-      height = 12
-    }
-    if(this.state.dragStatus.leftHorizontalDragging) {
-      this.setState({
-        leftTopPanelStyle: {
-          height
-        }
-      })
+  leftHorizontalDividerMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    if(this.state.activeIndex !== -1) {
+      let height: number = e.screenY - this.state[`dragStatus-${index}`].startMouseValue + this.state[`dragStatus-${index}`].startDOMValue
+      if(height < 36) {
+        height = 36
+      }
+      if(this.state[`dragStatus-${index}`].leftHorizontalDragging) {
+        this.props.setLeftHorizontalDividerPosition(index, height)
+      }
     }
   }
 
-  left1HorizontalDividerMouseUpHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    if(this.state.dragStatus.leftHorizontalDragging) {
+  leftHorizontalDividerMouseUpHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`].leftHorizontalDragging) {
       this.setState({
-        dragStatus: {
+        [`dragStatus-${index}`]: {
           verticalDragging: false,
           leftHorizontalDragging: false,
           rightHorizontalDragging: false,
           startMouseValue: -1,
           startDOMValue: -1
-        }
+        },
+        activeIndex: -1
       })
     }
   }
 
-  rightHorizontalDividerMouseDownHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+  rightHorizontalDividerMouseDownHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     this.setState({
-      dragStatus: {
+      [`dragStatus-${index}`]: {
         verticalDragging: false,
-        leftHorizontalDragging: false,
-        rightHorizontalDragging: true,
+        leftHorizontalDragging: true,
+        rightHorizontalDragging: false,
         startMouseValue: e.screenY,
-        startDOMValue: this.rightTopPanelRef.getBoundingClientRect().height
-      }
+        startDOMValue: this.rightPanelRefs[index].getBoundingClientRect().height
+      },
+      activeIndex: index
     })
   }
 
-  rightHorizontalDividerMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    let height: number = e.screenY - this.state.dragStatus.startMouseValue + this.state.dragStatus.startDOMValue
-    if(height < 12) {
-      height = 12
-    }
-    if(this.state.dragStatus.rightHorizontalDragging) {
-      this.setState({
-        rightTopPanelStyle: {
-          height
-        }
-      })
+  rightHorizontalDividerMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    if(this.state.activeIndex !== -1) {
+      let height: number = e.screenY - this.state[`dragStatus-${index}`].startMouseValue + this.state[`dragStatus-${index}`].startDOMValue
+      if(height < 36) {
+        height = 36
+      }
+      if(this.state[`dragStatus-${index}`].leftHorizontalDragging) {
+        this.props.setRightHorizontalDividerPosition(index, height)
+      }
     }
   }
 
-  rightHorizontalDividerMouseUpHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    if(this.state.dragStatus.rightHorizontalDragging) {
+  rightHorizontalDividerMouseUpHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`].leftHorizontalDragging) {
       this.setState({
-        dragStatus: {
+        [`dragStatus-${index}`]: {
           verticalDragging: false,
           leftHorizontalDragging: false,
           rightHorizontalDragging: false,
           startMouseValue: -1,
           startDOMValue: -1
-        }
+        },
+        activeIndex: -1
       })
     }
   }
@@ -158,41 +201,43 @@ class Editor extends React.Component {
       this.setState({
         leftPanelStyle: {
           flex: 'none',
-          width: this.leftPanelRef.getBoundingClientRect().width
         }
       })
+      if(!this.props.verticalDivider) {
+        this.props.setVerticalDividerPosition(this.leftPanelRef.getBoundingClientRect().width)
+      }
     }
   }
 
   render() {
     return (
       <div className="editor-container" onMouseMove={this.verticalDividerMouseMoveHandler} onMouseUp={this.verticalDividerMouseUpHandler} onMouseLeave={this.verticalDividerMouseUpHandler}>
-        <div className="editor-left-panel" style={this.state.leftPanelStyle} ref={ref => this.leftPanelRef = ref} onMouseMove={this.left1HorizontalDividerMouseMoveHandler} onMouseUp={this.left1HorizontalDividerMouseUpHandler} onMouseLeave={this.left1HorizontalDividerMouseUpHandler}>
-          <div className="editor-left-panel-item" ref={ref => this.leftTopPanelRef = ref} style={this.state.leftTopPanelStyle}>
+        <div className="editor-left-panel" style={{...this.state.leftPanelStyle, width: this.props.verticalDivider}} ref={ref => this.leftPanelRef = ref} onMouseMove={e => this.leftHorizontalDividerMouseMoveHandler(e, this.state.activeIndex)} onMouseUp={e => this.leftHorizontalDividerMouseUpHandler(e, this.state.activeIndex)} onMouseLeave={e => this.leftHorizontalDividerMouseUpHandler(e, this.state.activeIndex)}>
+          <div className="editor-left-panel-item" ref={ref => this.leftPanelRefs[0] = ref} style={{height: this.props.leftHorizontalDivider[0]}}>
             <HTMLEditor></HTMLEditor>
           </div>
-          <div className="editor-horizontal-divider" onMouseDown={this.left1HorizontalDividerMouseDownHandler}></div>
-          <div className="editor-left-panel-item">
+          <div className="editor-horizontal-divider" onMouseDown={e => this.leftHorizontalDividerMouseDownHandler(e, 0)}></div>
+          <div className="editor-left-panel-item" ref={ref => this.leftPanelRefs[1] = ref} style={{height: this.props.leftHorizontalDivider[1]}}>
             <GLSLEditor name="vertexShader"></GLSLEditor>
             {/* <JSEditor></JSEditor> */}
           </div>
-          <div className="editor-horizontal-divider"></div>
+          <div className="editor-horizontal-divider" onMouseDown={e => this.leftHorizontalDividerMouseDownHandler(e, 1)}></div>
           <div className="editor-left-panel-item">
             <JSEditor></JSEditor>
           </div>
         </div>
         <div className="editor-vertical-divider" onMouseDown={this.verticalDividerMouseDownHandler}></div>
-        <div className="editor-right-panel" onMouseMove={this.rightHorizontalDividerMouseMoveHandler} onMouseUp={this.rightHorizontalDividerMouseUpHandler} onMouseLeave={this.rightHorizontalDividerMouseUpHandler}>
-          <div className="editor-right-panel-item" ref={ref => this.rightTopPanelRef = ref} style={this.state.rightTopPanelStyle}>
+        <div className="editor-right-panel" onMouseMove={e => this.rightHorizontalDividerMouseMoveHandler(e, this.state.activeIndex)} onMouseUp={e => this.rightHorizontalDividerMouseUpHandler(e, this.state.activeIndex)} onMouseLeave={e => this.rightHorizontalDividerMouseUpHandler(e, this.state.activeIndex)}>
+          <div className="editor-right-panel-item" ref={ref => this.rightPanelRefs[0] = ref} style={{height: this.props.rightHorizontalDivider[0]}}>
             <CSSEditor></CSSEditor>
           </div>
-          <div className="editor-horizontal-divider" onMouseDown={this.rightHorizontalDividerMouseDownHandler}></div>
-          <div className="editor-right-panel-item">
+          <div className="editor-horizontal-divider" onMouseDown={e => this.rightHorizontalDividerMouseDownHandler(e, 0)}></div>
+          <div className="editor-right-panel-item" ref={ref => this.rightPanelRefs[1] = ref} style={{height: this.props.rightHorizontalDivider[1]}}>
             <GLSLEditor name="fragmentShader"></GLSLEditor>
           </div>
-          <div className="editor-horizontal-divider"></div>
+          <div className="editor-horizontal-divider" onMouseDown={e => this.rightHorizontalDividerMouseDownHandler(e, 1)}></div>
           <div className="editor-right-panel-item">
-            {(this.state.dragStatus.verticalDragging || this.state.dragStatus.rightHorizontalDragging) && <div className="editor-result-mask"></div>}
+            {(this.state.activeIndex !== -1) && <div className="editor-result-mask"></div>}
             <Result></Result>
           </div>
         </div>
@@ -201,4 +246,4 @@ class Editor extends React.Component {
   }
 }
 
-export default Editor
+export default connect(mapStateToProps, mapDispatchToProps)(Editor as any)

@@ -50,7 +50,7 @@ class GLSLEditor extends React.Component<GLSLEditorProps> {
   render() {
     return (
       <div className="glsleditor-container editor-item">
-        <header>GLSL({this.props.name})</header>
+        <header>GLSL: {this.props.name}</header>
         <div id={'glsleditor-' + this.props.name} className="glsleditor-hook"></div>
       </div>
     )

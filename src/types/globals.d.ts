@@ -26,6 +26,15 @@ interface RootState {
   },
   result: {
     content: string
+  },
+  dividerPosition: {
+    verticalDivider: number,
+    leftHorizontalDivider: {
+      [propName: number]: number
+    },
+    rightHorizontalDivider: {
+      [propName: number]: number
+    }
   }
 }
 

@@ -47,6 +47,29 @@ export function setSelected(selected: Object) {
   }
 }
 
+export function setVerticalDividerPosition(position: number) {
+  return {
+    type: types.SET_VERTICAL_DIVIDER_POSITION,
+    position
+  }
+}
+
+export function setLeftHorizontalDividerPosition(index: number, position: number) {
+  return {
+    type: types.SET_LEFT_HORIZONTAL_DIVIDER_POSITION,
+    index,
+    position
+  }
+}
+
+export function setRightHorizontalDividerPosition(index: number, position: number) {
+  return {
+    type: types.SET_RIGHT_HORIZONTAL_DIVIDER_POSITION,
+    index,
+    position
+  }
+}
+
 export function initEditor(file: File) {
   return async function(dispatch: Dispatch) {
     await dispatch(setTitle(file.title))

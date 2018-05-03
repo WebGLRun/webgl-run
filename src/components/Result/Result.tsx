@@ -40,10 +40,23 @@ class Result extends React.Component<ResultProps> {
     }
   }
 
+  refreshIconClickHandler = () => {
+    if(this.state.iframe) {
+      this.state.iframe.setHTML(this.props.result)
+      setTimeout(() => {
+        if(this.state.iframe) {
+          if(this.state.showConsole) {
+            (this.state.iframe as any).$dom.contentWindow.vConsole.show()
+          }
+        }
+      }, 200)
+    }
+  }
+
   render() {
     return (
       <div className="result-container editor-item">
-        <header>Result<i className={`iconfont icon-console ${this.state.showConsole ? 'active' : ''}`} onClick={this.consoleIconClickHandler}></i></header>
+        <header>Result<i className={`iconfont icon-console ${this.state.showConsole ? 'active' : ''}`} onClick={this.consoleIconClickHandler}></i><i className="iconfont icon-refresh" onClick={this.refreshIconClickHandler}></i></header>
         <div className="result-content">
           <div id="result-hook" ref="resultHook"></div>
         </div>

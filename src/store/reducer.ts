@@ -32,6 +32,17 @@ const initialState: RootState = {
       }
     }
   },
+  dividerPosition: {
+    verticalDivider: 0,
+    leftHorizontalDivider: {
+      [0]: 36,
+      [1]: 250
+    },
+    rightHorizontalDivider: {
+      [0]: 36,
+      [1]: 250
+    }
+  },
   result: {
     content: ``
   }
@@ -111,6 +122,37 @@ const reducer = (state: RootState = initialState, action: Action) => {
         result: {
           content: {
             $set: result
+          }
+        }
+      })
+    }
+    case(types.SET_VERTICAL_DIVIDER_POSITION): {
+      return update(state, {
+        dividerPosition: {
+          verticalDivider: {
+            $set: action.position
+          }
+        }
+      })
+    }
+    case(types.SET_LEFT_HORIZONTAL_DIVIDER_POSITION): {
+      return update(state, {
+        dividerPosition: {
+          leftHorizontalDivider: {
+            [action.index]: {
+              $set: action.position
+            }
+          }
+        }
+      })
+    }
+    case(types.SET_RIGHT_HORIZONTAL_DIVIDER_POSITION): {
+      return update(state, {
+        dividerPosition: {
+          rightHorizontalDivider: {
+            [action.index]: {
+              $set: action.position
+            }
           }
         }
       })

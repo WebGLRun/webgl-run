@@ -21,7 +21,7 @@ class Nav extends React.Component<NavProps> {
   render() {
     return (
       <div className="nav-container">
-        <p className="nav-brand">WebGL Playground</p>
+        <p className="nav-brand"><i className="iconfont icon-cube"></i> WebGL Playground</p>
         <p className="title">{this.props.title}</p>
       </div>
     )
