@@ -47,11 +47,14 @@ interface Action {
   [propName: string]: any
 }
 
-interface File {
+interface WebGLFile {
   title: string,
   content: {
     html: string,
     css: string,
-    js: string
+    js: string,
+    glsl: {
+      [propName: string]: string
+    }
   }
 }

@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     clearEditor() {
       return dispatch(clearEditor())
     },
-    initEditor(file: File) {
+    initEditor(file: WebGLFile) {
       return dispatch(initEditor(file))
     },
     setSelected(selected: object) {
@@ -68,7 +68,7 @@ class Sidebar extends React.Component<SidebarProps> {
     }
   }
 
-  async loadFile(file: File) {
+  async loadFile(file: WebGLFile) {
     await this.props.clearEditor()
     await this.props.initEditor(file)
   }
@@ -94,7 +94,7 @@ class Sidebar extends React.Component<SidebarProps> {
 
   componentWillMount() {
     if(!this.props.selected.item) {
-      this.loadFile(data[0].children[0].children[0] as File)
+      this.loadFile(data[0].children[0].children[0] as WebGLFile)
       this.props.setSelected({
         sub: data[0].title,
         item: data[0].children[0].children[0].title

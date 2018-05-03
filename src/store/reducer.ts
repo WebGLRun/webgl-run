@@ -91,7 +91,6 @@ const reducer = (state: RootState = initialState, action: Action) => {
       })
     }
     case(types.SET_GLSLEDITOR_CONTENT): {
-      console.log(action)
       return update(state, {
         editor: {
           glslEditor: {

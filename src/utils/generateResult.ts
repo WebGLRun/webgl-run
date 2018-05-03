@@ -27,6 +27,7 @@ const htmlTemplate = `<!DOCTYPE html>
       myPlugin.on('hideConsole', function() {window.parent.hideConsole()})
     </script>
     <style>
+      body {margin: 0;padding: 0;}
       #__vconsole .vc-mask {display: none!important}
       #__vconsole .vc-panel {min-height: 250px; transition: none!important;}
       #__vconsole .vc-switch {display: none;}

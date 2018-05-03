@@ -2,21 +2,19 @@
   width: 100%;
   height: 100%;
 
-  .icon-console {
+  .iconfont {
     float: right;
-    margin-right: 30px;
     cursor: pointer;
-  }
-
-  .icon-refresh {
-    float: right;
     margin-right: 10px;
-    cursor: pointer;
-  }
 
-  .icon-console.active:before {
-    outline: 1px solid #999;
-    outline-offset: 2px;
+    &.icon-console {
+      margin-right: 30px;
+    }
+
+    &.icon-console.active:before {
+      outline: 1px solid #999;
+      outline-offset: 2px;
+    }
   }
 
   .result-content {

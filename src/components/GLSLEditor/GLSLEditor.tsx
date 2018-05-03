@@ -88,14 +88,11 @@ class GLSLEditor extends React.Component<GLSLEditorProps> {
   }
 
   setGLSL = debounce(() => {
-    console.log('dispatch!!')
     this.props.setGLSL(this.state.editor.getValue())
     this.props.updateResult()
   }, 1000)
 
   shouldComponentUpdate(nextProps: GLSLEditorProps) {
-    console.log('should?', this.state.editor && nextProps.content !== this.state.editor.getValue())
-    console.log(nextProps.content, this.state.editor.getValue())
     return this.state.editor && nextProps.content !== this.state.editor.getValue()
   }
 

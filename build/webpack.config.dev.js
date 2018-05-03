@@ -77,6 +77,7 @@ module.exports = {
     compress: true,
     disableHostCheck: false,
     contentBase: path.resolve(__dirname, '../dist'),
+    historyApiFallback: true
   },
   externals: {
     monaco: 'window.monaco'

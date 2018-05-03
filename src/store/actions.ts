@@ -70,21 +70,29 @@ export function setRightHorizontalDividerPosition(index: number, position: numbe
   }
 }
 
-export function initEditor(file: File) {
+export function initEditor(file: WebGLFile) {
   return async function(dispatch: Dispatch) {
+    console.log(file)
     await dispatch(setTitle(file.title))
     await dispatch(setHTML(file.content.html))
     await dispatch(setCSS(file.content.css))
     await dispatch(setJS(file.content.js))
+    for(let shaderName in file.content.glsl) {
+      await dispatch(setGLSL({name: shaderName, glsl: file.content.glsl[shaderName]}))
+    }
   }
 }
 
 export function clearEditor() {
-  return async function(dispatch: Dispatch) {
+  return async function(dispatch: Dispatch, getState: Function) {
+    const state = getState()
     await dispatch(setTitle(''))
     await dispatch(setHTML(''))
     await dispatch(setCSS(''))
     await dispatch(setJS(''))
+    for(let shaderName in state.editor.glslEditor) {
+      await dispatch(setGLSL({name: shaderName, glsl: ''}))
+    }
   }
 }
 
