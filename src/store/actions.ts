@@ -29,6 +29,17 @@ export function setJS(js: string) {
   }
 }
 
+export function setGLSL({name, glsl}: {
+  name: string,
+  glsl: string
+}) {
+  return {
+    type: types.SET_GLSLEDITOR_CONTENT,
+    name,
+    glsl
+  }
+}
+
 export function setSelected(selected: Object) {
   return {
     type: types.SET_SELECTED,

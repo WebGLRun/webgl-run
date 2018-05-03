@@ -13,9 +13,10 @@ export default [{
   color: #fff;
   background-color: #1E1E1E;
 }`,
-        js: `function x() {
+        js: `function x(): void {
   console.log("Hello world!");
-}`
+}
+x()`
       }
     }, {
       title: '测试item标题B',
@@ -28,7 +29,8 @@ export default [{
 }`,
         js: `function x() {
   console.log("Hello world!");
-}`
+}
+x()`
       }
     }]
   }]

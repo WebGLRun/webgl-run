@@ -19,11 +19,18 @@ interface RootState {
     },
     jsEditor: {
       content: string
+    },
+    glslEditor: {
+      [propName: string]: shaderEditorType
     }
   },
   result: {
     content: string
   }
+}
+
+interface shaderEditorType {
+  content: string
 }
 
 interface Action {

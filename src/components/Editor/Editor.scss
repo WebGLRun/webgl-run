@@ -23,14 +23,18 @@
     flex-direction: column;
     width: 0;
 
-    .editor-left-top-panel {
+    .editor-left-panel-item {
       height: 200px;
       flex: none;
-    }
 
-    .editor-left-bottom-panel {
-      flex: 1;
-      height: 0;
+      &:nth-child(1) {
+        height: 36px;
+      }
+
+      &:last-child {
+        flex: 1;
+        height: 0;
+      }
     }
   }
 
@@ -40,22 +44,26 @@
     width: 0;
     flex: 1;
 
-    .editor-right-top-panel {
+    .editor-right-panel-item {
       height: 200px;
       flex: none;
-    }
 
-    .editor-right-bottom-panel {
-      position: relative;
-      flex: 1;
-      height: 0;
+      &:nth-child(1) {
+        height: 36px;
+      }
 
-      .editor-result-mask {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+      &:last-child {
+        position: relative;
+        flex: 1;
+        height: 0;
+
+        .editor-result-mask {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
       }
     }
   }

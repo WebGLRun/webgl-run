@@ -22,6 +22,14 @@ const initialState: RootState = {
     },
     jsEditor: {
       content: ``
+    },
+    glslEditor: {
+      vertexShader: {
+        content: ``
+      },
+      fragmentShader: {
+        content: ``
+      }
     }
   },
   result: {
@@ -71,6 +79,20 @@ const reducer = (state: RootState = initialState, action: Action) => {
         }
       })
     }
+    case(types.SET_GLSLEDITOR_CONTENT): {
+      console.log(action)
+      return update(state, {
+        editor: {
+          glslEditor: {
+            [action.name]: {
+              content: {
+                $set: action.glsl
+              }
+            }
+          }
+        }
+      })
+    }
     case(types.SET_SELECTED): {
       return update(state, {
         selected: {
@@ -82,7 +104,8 @@ const reducer = (state: RootState = initialState, action: Action) => {
       let result = generateResult({
         html: state.editor.htmlEditor.content,
         css: state.editor.cssEditor.content,
-        js: (window as any).ts.transpile(state.editor.jsEditor.content)
+        js: (window as any).ts.transpile(state.editor.jsEditor.content),
+        glsl: state.editor.glslEditor
       })
       return update(state, {
         result: {

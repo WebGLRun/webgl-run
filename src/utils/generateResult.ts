@@ -1,5 +1,10 @@
 interface GenerateResultParams {
   htmlTemplate?: string,
+  glsl: {
+    [propNames: string]: {
+      content: string
+    }
+  },
   html: string,
   css: string,
   js: string
@@ -11,6 +16,9 @@ const htmlTemplate = `<!DOCTYPE html>
     <meta charset="UTF-8">
     <title>WebGL Playground</title>
     <script src="https://webgl.404forest.com/assets/js/vconsole.min.js?v=3.2.0"></script>
+    <script>
+      {{glsl}}
+    </script>
     <script>
       var vConsole = new VConsole({defaultPlugins: []})
       var myPlugin = new VConsole.VConsolePlugin('my_plugin', 'My Plugin')
@@ -38,10 +46,16 @@ export function generateResult(params: GenerateResultParams): string {
   let a: string = Math.random().toString(36).substr(2)
   let b: string = Math.random().toString(36).substr(2)
   let c: string = Math.random().toString(36).substr(2)
+  let d: string = Math.random().toString(36).substr(2)
+  let glsl: string = Object.keys(params.glsl).map(e => {
+    return `window.${e} = \`${params.glsl[e].content}\``
+  }).join('\n')
   return tmp.replace('{{html}}', a)
             .replace('{{css}}', b)
             .replace('{{js}}', c)
+            .replace('{{glsl}}', d)
             .replace(a, params.html)
             .replace(b, params.css)
             .replace(c, params.js)
+            .replace(d, glsl)
 }
