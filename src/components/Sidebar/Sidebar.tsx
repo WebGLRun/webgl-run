@@ -51,11 +51,13 @@ class Sidebar extends React.Component<SidebarProps> {
   }
 
   itemClickHandler = async (param: ClickParam) => {
+    console.log('click!', param)
     let subMenu = data.find((e: any) => e.title === param.keyPath[1])
     if(subMenu) {
       let file
-      subMenu.children.forEach((e: any) => {
+      subMenu.children.some((e: any) => {
         file = e.children.find((e: any) => e.title === param.keyPath[0])
+        return file
       })
       if(file) {
         await this.loadFile(file)
