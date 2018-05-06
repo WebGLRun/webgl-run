@@ -46,7 +46,7 @@ class JSEditor extends React.Component<JSEditorProps> {
   render() {
     return (
       <div className="jseditor-container editor-item">
-        <header>Typescript / JavaScript</header>
+        <header>JavaScript</header>
         <div id="jseditor"></div>
       </div>
     )
@@ -58,7 +58,7 @@ class JSEditor extends React.Component<JSEditorProps> {
         window.clearInterval(this.state.timer)
         this.state.editor = (window as any).monaco.editor.create(document.getElementById('jseditor') as HTMLElement, {
           value: this.props.content,
-          language: 'typescript',
+          language: 'javascript',
           theme: 'vs-dark',
           automaticLayout: true,
           minimap: {

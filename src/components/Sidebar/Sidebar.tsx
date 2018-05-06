@@ -85,7 +85,11 @@ class Sidebar extends React.Component<SidebarProps> {
     })
     return (
       <div className="sidebar-container">
-        <Menu selectedKeys={[this.props.selected.item]} openKeys={[this.props.selected.sub]} onClick={this.itemClickHandler} mode="inline">
+        <Menu
+          defaultSelectedKeys={[this.props.selected.item || data[0].children[0].children[0].title]}
+          defaultOpenKeys={[this.props.selected.sub || data[0].title]}
+          onClick={this.itemClickHandler}
+          mode="inline">
           {subMenus}
         </Menu>
       </div>

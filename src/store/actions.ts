@@ -72,7 +72,6 @@ export function setRightHorizontalDividerPosition(index: number, position: numbe
 
 export function initEditor(file: WebGLFile) {
   return async function(dispatch: Dispatch) {
-    console.log(file)
     await dispatch(setTitle(file.title))
     await dispatch(setHTML(file.content.html))
     await dispatch(setCSS(file.content.css))

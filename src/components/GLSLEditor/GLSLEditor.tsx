@@ -82,7 +82,6 @@ class GLSLEditor extends React.Component<GLSLEditorProps> {
 
   modelDidChangeHandler = () => {
     if(this.props.content !== this.state.editor.getValue()) {
-      console.log('set!')
       this.setGLSL()
     }
   }
