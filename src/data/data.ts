@@ -3,6 +3,9 @@ import param from './Tutorial/Basic/param'
 import event from './Tutorial/Basic/event'
 import buffer from './Tutorial/Basic/buffer'
 import triangles from './Tutorial/Basic/triangles'
+import translation from './Tutorial/Basic/translation'
+import composedMatrix from './Tutorial/Basic/composeMatrix'
+import rotateAnimate from './Tutorial/Basic/rotateAnimate'
 import butterfly from './Collections/Demos/butterfly'
 
 export default [{
@@ -35,6 +38,18 @@ export default [{
       title: '三角形',
       type: 'item',
       content: triangles
+    }, {
+      title: '平移',
+      type: 'item',
+      content: translation
+    }, {
+      title: '连接变换矩阵',
+      type: 'item',
+      content: composedMatrix
+    }, {
+      title: '旋转动画',
+      type: 'item',
+      content: rotateAnimate
     }]
   }]
 }, {
