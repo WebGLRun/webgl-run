@@ -63,7 +63,8 @@ class JSEditor extends React.Component<JSEditorProps> {
           automaticLayout: true,
           minimap: {
             enabled: false
-          }
+          },
+          tabSize: 2
         })
         this.state.editor.onDidChangeModelContent(this.modelDidChangeHandler)
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
