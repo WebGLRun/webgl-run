@@ -11,7 +11,8 @@ interface ResultProps {
 interface ResultState {
   iframe: null | Iframe,
   showConsole: boolean,
-  fullScreen: boolean
+  fullScreen: boolean,
+  showMeter: boolean
 }
 
 const mapStateToProps = (state: RootState) => {
@@ -29,7 +30,8 @@ class Result extends React.Component<ResultProps> {
   state: ResultState = {
     iframe: null,
     showConsole: false,
-    fullScreen: false
+    fullScreen: false,
+    showMeter: false
   }
 
   fullScreenStyle = {
@@ -66,14 +68,25 @@ class Result extends React.Component<ResultProps> {
 
   fullScreenIconClickHandler = () => {
     this.setState({
-      fullScreen: !this.state.fullScreen
+      showMeter: !this.state.fullScreen
     })
+  }
+
+  meterIconClickHandler = () => {
+    if(this.state.iframe) {
+      if(this.state.showMeter) {
+        (this.state.iframe as any).$dom.contentWindow._meterHide()
+      }else {
+        (this.state.iframe as any).$dom.contentWindow._meterShow()
+      }
+    }
   }
 
   render() {
     return (
       <div className="result-container editor-item" style={this.state.fullScreen ? this.fullScreenStyle as any : {}}>
         <header>Result
+          <i className={`iconfont icon-meter ${this.state.showMeter ? 'active' : ''}`} onClick={this.meterIconClickHandler}></i>
           <i className={`iconfont icon-console ${this.state.showConsole ? 'active' : ''}`} onClick={this.consoleIconClickHandler}></i>
           <i className={`iconfont ${this.state.fullScreen ? 'icon-fullscreenexit' : 'icon-full-screen'}`} onClick={this.fullScreenIconClickHandler}></i>
           <i className="iconfont icon-refresh" onClick={this.refreshIconClickHandler}></i>
@@ -97,9 +110,23 @@ class Result extends React.Component<ResultProps> {
     })
   }
 
+  showMeter = () => {
+    this.setState({
+      showMeter: true
+    })
+  }
+
+  hideMeter = () => {
+    this.setState({
+      showMeter: false
+    })
+  }
+
   componentDidMount() {
     (window as any).showConsole = this.showConsole
     ;(window as any).hideConsole = this.hideConsole
+    ;(window as any).showMeter = this.showMeter
+    ;(window as any).hideMeter = this.hideMeter
     this.state.iframe = new Iframe(this.refs.resultHook as HTMLElement)
     this.state.iframe.setHTML(this.props.result)
   }
@@ -113,8 +140,11 @@ class Result extends React.Component<ResultProps> {
             if(this.state.showConsole) {
               (this.state.iframe as any).$dom.contentWindow.vConsole.show()
             }
+            if(this.state.showMeter) {
+              (this.state.iframe as any).$dom.contentWindow._meterShow()
+            }
           }
-        }, 200)
+        }, 500)
       }
     }
   }

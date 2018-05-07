@@ -7,11 +7,11 @@
     cursor: pointer;
     margin-right: 10px;
 
-    &.icon-console {
+    &.icon-meter {
       margin-right: 30px;
     }
 
-    &.icon-console.active:before {
+    &.active:before {
       outline: 1px solid #999;
       outline-offset: 2px;
     }

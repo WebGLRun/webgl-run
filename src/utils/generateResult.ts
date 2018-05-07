@@ -17,15 +17,9 @@ const htmlTemplate = `<!DOCTYPE html>
     <title>WebGL Playground</title>
     <script src="https://unpkg.com/v3js"></script>
     <script src="https://webgl.404forest.com/assets/js/vconsole.min.js?v=3.2.0"></script>
+    <script src="/assets/js/stats.min.js"></script>
     <script>
       {{glsl}}
-    </script>
-    <script>
-      var vConsole = new VConsole({defaultPlugins: []})
-      var myPlugin = new VConsole.VConsolePlugin('my_plugin', 'My Plugin')
-      vConsole.addPlugin(myPlugin)
-      myPlugin.on('showConsole', function() {window.parent.showConsole()})
-      myPlugin.on('hideConsole', function() {window.parent.hideConsole()})
     </script>
     <style>
       body {margin: 0;padding: 0;}
@@ -37,6 +31,36 @@ const htmlTemplate = `<!DOCTYPE html>
   </head>
   <body>
     {{html}}
+    <script>
+      // init vConsole
+      var vConsole = new VConsole({defaultPlugins: []})
+      var myPlugin = new VConsole.VConsolePlugin('my_plugin', 'My Plugin')
+      vConsole.addPlugin(myPlugin)
+      myPlugin.on('showConsole', function() {window.parent.showConsole()})
+      myPlugin.on('hideConsole', function() {window.parent.hideConsole()})
+
+      // init stats.js
+      var stats = new Stats();
+      stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+      document.body.appendChild(stats.dom);
+      stats.dom.style.display = 'none'
+      stats.dom.style.left = 'auto'
+      stats.dom.style.right = '0px'
+      function _animate() {
+        stats.begin();
+        stats.end();
+        requestAnimationFrame(_animate);
+      }
+      requestAnimationFrame(_animate);
+      function _meterHide() {
+        stats.dom.style.display = 'none'
+        window.parent.hideMeter()
+      }
+      function _meterShow() {
+        stats.dom.style.display = 'block'
+        window.parent.showMeter()
+      }
+    </script>
     <script>
       {{js}}
     </script>
