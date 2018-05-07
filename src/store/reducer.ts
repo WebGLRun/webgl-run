@@ -114,7 +114,11 @@ const reducer = (state: RootState = initialState, action: Action) => {
       let result = generateResult({
         html: state.editor.htmlEditor.content,
         css: state.editor.cssEditor.content,
-        js: (window as any).ts.transpile(state.editor.jsEditor.content),
+        js: (window as any).ts.transpileModule(state.editor.jsEditor.content, {
+          compilerOptions: {
+            target: (window as any).ts.ModuleKind.ESNext
+          }
+        }).outputText,
         glsl: state.editor.glslEditor
       })
       return update(state, {
