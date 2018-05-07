@@ -62,7 +62,7 @@ module.exports = {
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|svg)(\?t=\d+)?$/,
         loaders: [{
-          loader: 'url-loader?limit=8192'
+          loader: 'url-loader?limit=8192&name=assets/[name]-[hash].[ext]'
         }]
       }
     ]
