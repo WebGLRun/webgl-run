@@ -78,7 +78,7 @@ class JSEditor extends React.Component<JSEditorProps> {
             return webglConstants.map(e => {
               return {
                 label: e,
-                kind: (window as any).monaco.languages.CompletionItemKind.Keyword
+                kind: (window as any).monaco.languages.CompletionItemKind.Property
               }
             }).concat(webglApis.map(e => {
               return {
