@@ -15,8 +15,9 @@ const htmlTemplate = `<!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
     <title>WebGL Playground</title>
-    <script src="https://unpkg.com/v3js"></script>
-    <script src="https://webgl.404forest.com/assets/js/vconsole.min.js?v=3.2.0"></script>
+    <script src="/assets/js/pace.min.js"></script>
+    <link href="/assets/js/pace.css" rel="stylesheet" />
+    <script src="/assets/js/vconsole.min.js"></script>
     <script src="/assets/js/stats.min.js"></script>
     <script>
       {{glsl}}
