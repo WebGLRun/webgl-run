@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import {setGLSL, updateResult} from '../../store/actions'
+import {keyword, variables, functions} from '../../utils/glsl'
 const debounce = require('lodash.debounce')
 import './GLSLEditor.scss'
 
@@ -76,6 +77,30 @@ class GLSLEditor extends React.Component<GLSLEditorProps> {
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
           this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
+        // 注册 glsl 需要自动补全的关键字
+        if(!(window as any).registerGLSLHelper) {
+          ;(window as any).monaco.languages.registerCompletionItemProvider('c', {
+            provideCompletionItems: () => {
+              return keyword.map(e => {
+                return {
+                  label: e,
+                  kind: (window as any).monaco.languages.CompletionItemKind.Keyword
+                }
+              }).concat(functions.map(e => {
+                return {
+                  label: e,
+                  kind: (window as any).monaco.languages.CompletionItemKind.Function
+                }
+              })).concat(variables.map(e => {
+                return {
+                  label: e,
+                  kind: (window as any).monaco.languages.CompletionItemKind.Variable
+                }
+              }))
+            }
+          });
+          (window as any).registerGLSLHelper = true
+        }
       }
     }, 200)
   }

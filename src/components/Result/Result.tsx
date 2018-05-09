@@ -68,7 +68,7 @@ class Result extends React.Component<ResultProps> {
 
   fullScreenIconClickHandler = () => {
     this.setState({
-      showMeter: !this.state.fullScreen
+      fullScreen: !this.state.fullScreen
     })
   }
 

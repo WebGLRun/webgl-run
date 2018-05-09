@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import {setJS, updateResult} from '../../store/actions'
+import webglConstants from '../../utils/webglConstants'
+import webglApis from '../../utils/webglApis'
 const debounce = require('lodash.debounce')
 import './JSEditor.scss'
 
@@ -70,6 +72,22 @@ class JSEditor extends React.Component<JSEditorProps> {
         this.state.editor.addCommand([(window as any).monaco.KeyMod.Shift | (window as any).monaco.KeyMod.CtrlCmd | (window as any).monaco.KeyCode.KEY_P], () => {
           this.state.editor.trigger('anyString', 'editor.action.quickCommand')
         })
+        // 注册 webglContext 函数
+        ;(window as any).monaco.languages.registerCompletionItemProvider('javascript', {
+          provideCompletionItems: () => {
+            return webglConstants.map(e => {
+              return {
+                label: e,
+                kind: (window as any).monaco.languages.CompletionItemKind.Keyword
+              }
+            }).concat(webglApis.map(e => {
+              return {
+                label: e,
+                kind: (window as any).monaco.languages.CompletionItemKind.Method
+              }
+            }))
+          }
+        });
       }
     }, 200)
   }
