@@ -14,7 +14,7 @@ const htmlTemplate = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>WebGL Playground</title>
+    <title>WebGL Run Result</title>
     <script src="/assets/js/pace.min.js"></script>
     <link href="/assets/js/pace.css" rel="stylesheet" />
     <script src="/assets/js/vconsole.min.js"></script>
