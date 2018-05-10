@@ -13,6 +13,9 @@ wutils.initProgramWithShadersSource(
     $shaders.fragmentShader,
 )
 
+// 重置背景色
+gl.clearColor(1.0, 1.0, 1.0, 1.0)
+
 // 取得变量并赋值
 let a_Position = gl.getAttribLocation(gl.program, 'a_Position')
 let u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor')
@@ -51,8 +54,6 @@ function render() {
     [...newA, ...newB, ...newC]
   )
 
-  // 重置背景色
-  gl.clearColor(1.0, 1.0, 1.0, 1.0)
   gl.clear(gl.COLOR_BUFFER_BIT)
 
   gl.bufferData(gl.ARRAY_BUFFER, newVertices, gl.STATIC_DRAW)
