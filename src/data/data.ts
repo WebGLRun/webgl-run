@@ -6,6 +6,8 @@ import triangles from './Tutorial/Basic/triangles'
 import translation from './Tutorial/Basic/translation'
 import composedMatrix from './Tutorial/Basic/composeMatrix'
 import rotateAnimate from './Tutorial/Basic/rotateAnimate'
+import multiAttribute from './Tutorial/Basic/multiAttribute'
+import varying from './Tutorial/Basic/varying'
 import butterfly from './Collections/Demos/butterfly'
 
 export default [{
@@ -50,6 +52,18 @@ export default [{
       title: '旋转动画',
       type: 'item',
       content: rotateAnimate
+    }]
+  }, {
+    title: 'ch05',
+    type: 'group',
+    children: [{
+      title: '交错使用缓冲区',
+      type: 'item',
+      content: multiAttribute
+    }, {
+      title: 'varying 变量与内插',
+      type: 'item',
+      content: varying
     }]
   }]
 }, {
