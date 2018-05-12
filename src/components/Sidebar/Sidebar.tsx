@@ -51,7 +51,6 @@ class Sidebar extends React.Component<SidebarProps> {
   }
 
   itemClickHandler = async (param: ClickParam) => {
-    console.log('click!', param)
     let subMenu = data.find((e: any) => e.title === param.keyPath[1])
     if(subMenu) {
       let file

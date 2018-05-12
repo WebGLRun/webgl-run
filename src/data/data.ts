@@ -8,6 +8,7 @@ import composedMatrix from './Tutorial/Basic/composeMatrix'
 import rotateAnimate from './Tutorial/Basic/rotateAnimate'
 import multiAttribute from './Tutorial/Basic/multiAttribute'
 import varying from './Tutorial/Basic/varying'
+import texture from './Tutorial/Basic/texture'
 import butterfly from './Collections/Demos/butterfly'
 
 export default [{
@@ -64,6 +65,10 @@ export default [{
       title: 'varying 变量与内插',
       type: 'item',
       content: varying
+    }, {
+      title: '纹理',
+      type: 'item',
+      content: texture
     }]
   }]
 }, {
