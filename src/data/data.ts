@@ -9,6 +9,7 @@ import rotateAnimate from './Tutorial/Basic/rotateAnimate'
 import multiAttribute from './Tutorial/Basic/multiAttribute'
 import varying from './Tutorial/Basic/varying'
 import texture from './Tutorial/Basic/texture'
+import camera from './Tutorial/Basic/camera'
 import butterfly from './Collections/Demos/butterfly'
 
 export default [{
@@ -69,6 +70,14 @@ export default [{
       title: '纹理',
       type: 'item',
       content: texture
+    }]
+  }, {
+    title: 'ch06',
+    type: 'group',
+    children: [{
+      title: '摄像机坐标系',
+      type: 'item',
+      content: camera
     }]
   }]
 }, {
