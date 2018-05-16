@@ -5,14 +5,23 @@ export default {
 <p>Use W, A, S, D, Space, Shift to move the eye, use ←,→,↑,↓ to move the line of sight. </p>
 <p id="eye"></p>
 <p id="center"></p>
-<p id="up"></p>`,
+<p id="up"></p><br>
+<p id="matrix"></p>`,
   css: `p {
   margin: 0;
   color: #fff;
+}
+
+#matrix {
+  white-space: pre;
 }`,
-  js: `let $eye = document.getElementById('eye')
+  js: `// 向量在坐标系中的变换
+// http://www.cnblogs.com/dojo-lzz/p/7223364.html
+
+let $eye = document.getElementById('eye')
 let $center = document.getElementById('center')
 let $up = document.getElementById('up')
+let $matrix = document.getElementById('matrix')
 let canvas = document.getElementById('webgl')
 let gl = canvas.getContext('webgl')
 
@@ -58,23 +67,30 @@ function render(eye, center, up) {
   z.normalize()
   let y = up
   y.normalize()
-  let x = v3.Vector3.crossProduct(z, y)
+  let x = v3.Vector3.crossProduct(y, z)
   x.normalize()
 
-  // 由于两个坐标轴原点不同，计算平移
-  let tx = v3.Vector3.dotProduct(v3.Vector3.negate(x), eye)
-  let ty = v3.Vector3.dotProduct(v3.Vector3.negate(y), eye)
-  let tz = v3.Vector3.dotProduct(v3.Vector3.negate(z), eye)
-
-  // 构建变换矩阵，将向量从世界坐标系转换到摄像机坐标系
-  let viewMatrix4x3 = new v3.Matrix4x3(
+  // 构建旋转矩阵
+  let rMatrix = new v3.RotationMatrix(
     ...x,
     ...y,
-    ...z,
-    tx, ty, tz
+    ...z
   )
 
-  gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix4x3.getMat4FloatArray())
+  // 构建平移矩阵
+  let tMatrix = new v3.Matrix4x3()
+  tMatrix.identity()
+  tMatrix.setTranslation(eye)
+
+  // 构建复合矩阵，且求逆(物体绝对位置不动，是坐标轴变动了，物体相对坐标轴做反向运动)
+  // C = R*T
+  // C^-1 = T^-1*R^-1 正交矩阵的逆等于其转置
+  // C^-1 = T^-1 * R^t 反向平移 + 反向旋转
+  tMatrix.setTranslation(v3.Vector3.negate(eye))
+  rMatrix.transpose()
+  let composedMatrix = new v3.Matrix4x3.matrix4x3Multiply(tMatrix, rMatrix)
+
+  gl.uniformMatrix4fv(u_ViewMatrix, false, composedMatrix.getMat4FloatArray())
 
   let vertexBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
@@ -88,82 +104,87 @@ function render(eye, center, up) {
   gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FZIE * 6, FZIE * 3)
   gl.enableVertexAttribArray(a_Color)
 
-
   gl.clear(gl.COLOR_BUFFER_BIT)
 
   // 画三角
   gl.drawArrays(gl.TRIANGLES, 0, count)
-  showCoord()
+  showCoord(composedMatrix)
 }
 
-function showCoord() {
+// 显示参数
+function showCoord(composedMatrix) {
   $eye.innerHTML = \`eye: \${eye.x.toFixed(2)}, \${eye.y.toFixed(2)}, \${eye.z.toFixed(2)}\`
   $center.innerHTML = \`center: \${center.x.toFixed(2)}, \${center.y.toFixed(2)}, \${center.z.toFixed(2)}\`
   $up.innerHTML = \`up: \${up.x.toFixed(2)}, \${up.y.toFixed(2)}, \${up.z.toFixed(2)}\`
+  $matrix.innerHTML = \`transform matrix:
+\${composedMatrix.m11.toFixed(2)},  \${composedMatrix.m12.toFixed(2)},  \${composedMatrix.m13.toFixed(2)},  \${composedMatrix.m14.toFixed(2)},
+\${composedMatrix.m21.toFixed(2)},  \${composedMatrix.m22.toFixed(2)},  \${composedMatrix.m23.toFixed(2)},  \${composedMatrix.m24.toFixed(2)},
+\${composedMatrix.m31.toFixed(2)},  \${composedMatrix.m32.toFixed(2)},  \${composedMatrix.m33.toFixed(2)},  \${composedMatrix.m34.toFixed(2)},
+\${composedMatrix.tx.toFixed(2)},  \${composedMatrix.ty.toFixed(2)},  \${composedMatrix.tz.toFixed(2)},  \${composedMatrix.tw.toFixed(2)}\`
 }
 
 render(eye, center, up)
 
+// 注册键盘事件
 document.addEventListener('keydown', (e) => {
-  console.log(e.key)
-  switch(e.key) {
-    case('w'): {
-      let z = eye.z + 0.01
-      if(z > 1) z = 1
-      eye = new v3.Vector3(eye.x, eye.y, z)
-      break
-    }
-    case('s'): {
+  switch (e.key) {
+    case ('w'): {
       let z = eye.z - 0.01
-      if(z < -1) z = -1
+      if (z < -1) z = -1
       eye = new v3.Vector3(eye.x, eye.y, z)
       break
     }
-    case('a'): {
-      let x = eye.x + 0.01
-      if(x > 1) x = 1
-      eye = new v3.Vector3(x, eye.y, eye.z)
+    case ('s'): {
+      let z = eye.z + 0.01
+      if (z > 1) z = 1
+      eye = new v3.Vector3(eye.x, eye.y, z)
       break
     }
-    case('d'): {
+    case ('a'): {
       let x = eye.x - 0.01
-      if(x < -1) x = -1
+      if (x < -1) x = -1
       eye = new v3.Vector3(x, eye.y, eye.z)
       break
     }
-    case(' '): {
+    case ('d'): {
+      let x = eye.x + 0.01
+      if (x > 1) x = 1
+      eye = new v3.Vector3(x, eye.y, eye.z)
+      break
+    }
+    case (' '): {
       let y = eye.y + 0.01
-      if(y > 1) y = 1
+      if (y > 1) y = 1
       eye = new v3.Vector3(eye.x, y, eye.z)
       break
     }
-    case('Shift'): {
+    case ('Shift'): {
       let y = eye.y - 0.01
-      if(y < -1) y = -1
+      if (y < -1) y = -1
       eye = new v3.Vector3(eye.x, y, eye.z)
       break
     }
-    case('ArrowUp'): {
+    case ('ArrowUp'): {
       let y = center.y + 0.01
-      if(y > 1) y = 1
+      if (y > 1) y = 1
       center = new v3.Vector3(center.x, y, center.z)
       break
     }
-    case('ArrowDown'): {
+    case ('ArrowDown'): {
       let y = center.y - 0.01
-      if(y < -1) y = -1
+      if (y < -1) y = -1
       center = new v3.Vector3(center.x, y, center.z)
       break
     }
-    case('ArrowLeft'): {
-      let x = center.x + 0.01
-      if(x > 1) x = 1
+    case ('ArrowLeft'): {
+      let x = center.x - 0.01
+      if (x < -1) x = -1
       center = new v3.Vector3(x, center.y, center.z)
       break
     }
-    case('ArrowRight'): {
-      let x = center.x - 0.01
-      if(x < -1) x = -1
+    case ('ArrowRight'): {
+      let x = center.x + 0.01
+      if (x > 1) x = 1
       center = new v3.Vector3(x, center.y, center.z)
       break
     }
