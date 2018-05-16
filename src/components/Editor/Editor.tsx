@@ -130,7 +130,7 @@ class Editor extends React.Component<EditorProps> {
   }
 
   leftHorizontalDividerMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    if(this.state.activeIndex !== -1) {
+    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`]) {
       let height: number = e.screenY - this.state[`dragStatus-${index}`].startMouseValue + this.state[`dragStatus-${index}`].startDOMValue
       if(height < 36) {
         height = 36
@@ -142,7 +142,7 @@ class Editor extends React.Component<EditorProps> {
   }
 
   leftHorizontalDividerMouseUpHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`].leftHorizontalDragging) {
+    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`] && this.state[`dragStatus-${index}`].leftHorizontalDragging) {
       this.setState({
         [`dragStatus-${index}`]: {
           verticalDragging: false,
@@ -170,7 +170,7 @@ class Editor extends React.Component<EditorProps> {
   }
 
   rightHorizontalDividerMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    if(this.state.activeIndex !== -1) {
+    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`]) {
       let height: number = e.screenY - this.state[`dragStatus-${index}`].startMouseValue + this.state[`dragStatus-${index}`].startDOMValue
       if(height < 36) {
         height = 36
@@ -182,7 +182,7 @@ class Editor extends React.Component<EditorProps> {
   }
 
   rightHorizontalDividerMouseUpHandler = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`].leftHorizontalDragging) {
+    if(this.state.activeIndex !== -1 && this.state[`dragStatus-${index}`] && this.state[`dragStatus-${index}`].leftHorizontalDragging) {
       this.setState({
         [`dragStatus-${index}`]: {
           verticalDragging: false,
