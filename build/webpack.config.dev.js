@@ -14,7 +14,8 @@ module.exports = {
   output: {
     globalObject: 'self',
     filename: '[name].bundle.[hash:8].js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -71,11 +72,11 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-    port: 8088,
-    host: '127.0.0.1',
+    port: 80,
+    host: '0.0.0.0',
     https: false,
     compress: true,
-    disableHostCheck: false,
+    disableHostCheck: true,
     contentBase: path.resolve(__dirname, '../dist'),
     historyApiFallback: true
   },
