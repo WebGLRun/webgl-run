@@ -1,23 +1,31 @@
 import * as React from 'react'
 import * as qs from 'qs'
-import * as axios from 'axios'
+import * as Cookies from 'js-cookie'
 import {connect, Dispatch} from 'react-redux'
 import {generateRandomString, popup} from '../../utils/utils'
 import {message} from 'antd'
+import {setUser} from '../../store/actions'
 import 'antd/lib/message/style/index.css'
 import './Nav.scss'
 
 interface NavProps {
-  title: string
-}
-
-interface NavStates {
-  userData: Object | null
+  title: string,
+  user: UserInfo,
+  setUser: Function
 }
 
 const mapStateToProps = (state: RootState) => {
   return {
-    title: state.title
+    title: state.title,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    setUser(user: UserInfo) {
+      dispatch(setUser(user))
+    }
   }
 }
 
@@ -25,10 +33,6 @@ class Nav extends React.Component<NavProps> {
 
   constructor(props: NavProps) {
     super(props)
-  }
-
-  state: NavStates = {
-    userData: null
   }
 
   loginClickHandler = () => {
@@ -47,28 +51,48 @@ class Nav extends React.Component<NavProps> {
           return
         }
         let msg = JSON.parse(e.newValue)
-        localStorage.setItem('webglrun:oauthType', msg.oauthType)
-        localStorage.setItem('webglrun:token', msg.token)
-        localStorage.setItem('webglrun:userData', JSON.stringify(msg.userData))
-        this.setState({
-          userData: msg.userData
-        })
         message.success('Github log in successfully!')
+        this.props.setUser({
+          oauthType: msg.oauthType,
+          nickName: msg.userData.login
+        })
       }
     })
+
+    this.checkUserStatus()
+  }
+
+  checkUserStatus = () => {
+    let oauthType = Cookies.get('webgl-run-user-oauth-type')
+    let nickName = Cookies.get('webgl-run-user-nick-name')
+    if(oauthType && nickName) {
+      this.props.setUser({
+        oauthType,
+        nickName
+      })
+    }else {
+      this.props.setUser(null)
+    }
   }
 
   render() {
+    let auth
+    if(!this.props.user) {
+      auth = <span className="tool-button login" onClick={this.loginClickHandler}>Log in with Github</span>
+    }else {
+      auth = <span className="tool-button">{this.props.user.nickName}</span>
+    }
+
     return (
       <div className="nav-container">
         <p className="nav-brand"><i className="iconfont icon-cube"></i> WebGL.Run</p>
         <p className="title">{this.props.title}</p>
         <div className="nav-tool">
-          {this.state.userData ? '' : <span className="tool-button login" onClick={this.loginClickHandler}>Login</span>}
+          {auth}
         </div>
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps)(Nav)
+export default connect(mapStateToProps, mapDispatchToProps)(Nav as any)

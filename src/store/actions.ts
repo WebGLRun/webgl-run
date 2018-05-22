@@ -70,6 +70,13 @@ export function setRightHorizontalDividerPosition(index: number, position: numbe
   }
 }
 
+export function setUser(user: UserInfo) {
+  return {
+    type: types.SET_USER,
+    user
+  }
+}
+
 export function initEditor(file: WebGLFile) {
   return async function(dispatch: Dispatch) {
     await dispatch(setTitle(file.title))

@@ -4,7 +4,13 @@ interface Monaco {
   editor: any
 }
 
+interface UserInfo {
+  oauthType: string,
+  nickName: string
+}
+
 interface RootState {
+  user: UserInfo | null,
   title: string,
   selected: {
     sub: string,

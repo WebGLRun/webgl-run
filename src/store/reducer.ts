@@ -8,6 +8,7 @@ import data from '../data/data'
 const persistState = require('redux-sessionstorage')
 
 const initialState: RootState = {
+  user: null,
   title: 'Default Title',
   selected: {
     sub: '',
@@ -157,6 +158,13 @@ const reducer = (state: RootState = initialState, action: Action) => {
               $set: action.position
             }
           }
+        }
+      })
+    }
+    case(types.SET_USER): {
+      return update(state, {
+        user: {
+          $set: action.user
         }
       })
     }
