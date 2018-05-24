@@ -62,7 +62,7 @@ class Nav extends React.Component<NavProps> {
   }
 
   newClickHandler = () => {
-    window.open('https://webgl.run')
+    window.open('http://webgl.run', 'fromNew')
   }
 
   saveClickHandler = async () => {

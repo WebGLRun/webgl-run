@@ -63,6 +63,9 @@ const initialState: RootState = {
 
 const reducer = (state: RootState = initialState, action: Action) => {
   switch(action.type) {
+    case(types.RESET_STORE): {
+      return JSON.parse(JSON.stringify(initialState))
+    }
     case(types.SET_TITLE): {
       return update(state, {
         title: {

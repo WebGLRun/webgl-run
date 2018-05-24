@@ -4,7 +4,7 @@ import {message} from 'antd'
 import Editor from '../Editor/Editor'
 import Nav from '../Nav/Nav'
 import Sidebar from '../Sidebar/Sidebar'
-import {setFileInfo, initEditor} from '../../store/actions'
+import {setFileInfo, initEditor, resetStore} from '../../store/actions'
 import http from '../../api/http'
 import '../../../assets/iconfont/iconfont.css'
 import '../Index/Index.scss'
@@ -17,7 +17,8 @@ interface IndexProps {
     }
   },
   setFileInfo: Function,
-  initEditor: Function
+  initEditor: Function,
+  resetStore: Function
 }
 
 const mapStateToProps = (state: RootState) => {
@@ -33,6 +34,9 @@ const mapDispatchToProps= (dispatch: Dispatch) => {
     },
     initEditor(file: WebGLFile) {
       dispatch(initEditor(file))
+    },
+    resetStore() {
+      dispatch(resetStore())
     }
   }
 }
@@ -77,6 +81,9 @@ class Index extends React.Component<IndexProps> {
         type: 'canvas',
         hash: ''
       })
+      if(window.name === 'fromNew') {
+        this.props.resetStore()
+      }
     }
   }
 

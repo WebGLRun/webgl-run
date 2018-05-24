@@ -98,8 +98,13 @@ export function setCreator(creator: CreatorInfo) {
   }
 }
 
+export function resetStore() {
+  return {
+    type: types.RESET_STORE
+  }
+}
+
 export function initEditor(file: WebGLFile) {
-  console.log(file)
   return async function(dispatch: Dispatch) {
     await dispatch(setTitle(file.title))
     await dispatch(setHTML(file.content.editor.htmlEditor.content))
