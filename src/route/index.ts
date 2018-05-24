@@ -10,6 +10,12 @@ const routes = [
     name: 'Index'
   },
   {
+    path: '/:canvasHash',
+    exact: true,
+    component: Index,
+    name: 'Canvas'
+  },
+  {
     path: '/oauth/:source',
     exact: true,
     component: OAuth,

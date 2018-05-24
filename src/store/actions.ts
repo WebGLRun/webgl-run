@@ -77,15 +77,39 @@ export function setUser(user: UserInfo) {
   }
 }
 
+export function setFileInfo(fileInfo: FileInfo) {
+  return {
+    type: types.SET_FILE_INFO,
+    fileInfo
+  }
+}
+
+export function setResult(result: string) {
+  return {
+    type: types.SET_RESULT,
+    result
+  }
+}
+
+export function setCreator(creator: CreatorInfo) {
+  return {
+    type: types.SET_CREATOR,
+    creator
+  }
+}
+
 export function initEditor(file: WebGLFile) {
+  console.log(file)
   return async function(dispatch: Dispatch) {
     await dispatch(setTitle(file.title))
-    await dispatch(setHTML(file.content.html))
-    await dispatch(setCSS(file.content.css))
-    await dispatch(setJS(file.content.js))
-    for(let shaderName in file.content.glsl) {
-      await dispatch(setGLSL({name: shaderName, glsl: file.content.glsl[shaderName]}))
+    await dispatch(setHTML(file.content.editor.htmlEditor.content))
+    await dispatch(setCSS(file.content.editor.cssEditor.content))
+    await dispatch(setJS(file.content.editor.jsEditor.content))
+    for(let shaderName in file.content.editor.glslEditor) {
+      await dispatch(setGLSL({name: shaderName, glsl: file.content.editor.glslEditor[shaderName].content}))
     }
+    await dispatch(setResult(file.content.result))
+    await dispatch(setCreator(file.creator))
   }
 }
 

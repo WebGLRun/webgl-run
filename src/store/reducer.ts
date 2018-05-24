@@ -8,8 +8,20 @@ import data from '../data/data'
 const persistState = require('redux-sessionstorage')
 
 const initialState: RootState = {
-  user: null,
+  user: {
+    oauthType: '',
+    nickName: 'Anonymous',
+    id: 1
+  },
   title: 'Default Title',
+  creator: {
+    nickName: '',
+    id: -1
+  },
+  fileInfo: {
+    type: 'canvas',
+    hash: ''
+  },
   selected: {
     sub: '',
     item: ''
@@ -26,10 +38,10 @@ const initialState: RootState = {
     },
     glslEditor: {
       vertexShader: {
-        content: ``
+        content: `// use $shaders.vertexShader in js to access`
       },
       fragmentShader: {
-        content: ``
+        content: `// use $shaders.fragmentShader in js to access`
       }
     }
   },
@@ -111,6 +123,22 @@ const reducer = (state: RootState = initialState, action: Action) => {
         }
       })
     }
+    case(types.SET_CREATOR): {
+      return update(state, {
+        creator: {
+          $set: action.creator
+        }
+      })
+    }
+    case(types.SET_RESULT): {
+      return update(state, {
+        result: {
+          content: {
+            $set: action.result
+          }
+        }
+      })
+    }
     case(types.UPDATE_RESULT): {
       let result = generateResult({
         html: state.editor.htmlEditor.content,
@@ -165,6 +193,13 @@ const reducer = (state: RootState = initialState, action: Action) => {
       return update(state, {
         user: {
           $set: action.user
+        }
+      })
+    }
+    case(types.SET_FILE_INFO): {
+      return update(state, {
+        fileInfo: {
+          $set: action.fileInfo
         }
       })
     }

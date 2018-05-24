@@ -6,16 +6,29 @@ interface Monaco {
 
 interface UserInfo {
   oauthType: string,
-  nickName: string
+  nickName: string,
+  id: number
+}
+
+interface CreatorInfo {
+  nickName: string,
+  id: number
+}
+
+interface FileInfo {
+  type: string,
+  hash: string
 }
 
 interface RootState {
-  user: UserInfo | null,
+  user: UserInfo,
   title: string,
   selected: {
     sub: string,
     item: string
   },
+  fileInfo: FileInfo,
+  creator: CreatorInfo,
   editor: {
     htmlEditor: {
       content: string
@@ -56,11 +69,26 @@ interface Action {
 interface WebGLFile {
   title: string,
   content: {
-    html: string,
-    css: string,
-    js: string,
-    glsl: {
-      [propName: string]: string
-    }
+    editor: {
+      htmlEditor: {
+        content: string
+      },
+      cssEditor: {
+        content: string
+      },
+      jsEditor: {
+        content: string
+      },
+      glslEditor: {
+        [propName: string]: {
+          content: string
+        }
+      }
+    },
+    result: string
+  },
+  creator: {
+    id: number,
+    nickName: string
   }
 }

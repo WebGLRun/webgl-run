@@ -26,17 +26,17 @@ class OAuth extends React.Component<OAuthProps> {
       if(params.code) {
         let result = await http.request({
           method: 'POST',
-          url: 'https://oauth.webgl.run/github',
+          url: 'https://api.webgl.run/oauth/github',
           data: {
             code: params.code
-          },
-
+          }
         })
         if(result.data.success) {
           sendMessage(JSON.stringify({
             token: result.data.token,
             userData: result.data.userData,
-            oauthType: 'github'
+            oauthType: 'github',
+            id: result.data.id
           }))
           setTimeout(() => {
             window.close()
