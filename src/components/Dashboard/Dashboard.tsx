@@ -207,7 +207,11 @@ class Dashboard extends React.Component {
       loginTip = <p className="no-login-tip">Please log in first.</p>
     }else {
       canvaseItems = this.state.canvases.map((e: any) => {
-        return (<li className="section-item canvas-item" key={e.hash}><span onClick={event => this.gotoCanvas(e.hash)}>{e.title}</span><i className="iconfont icon-delete" onClick={event => this.deleteCanvas(e.hash)}></i></li>)
+        return (<li className="section-item canvas-item" key={e.hash}>
+        <span className="canvas-item-title" onClick={event => this.gotoCanvas(e.hash)}>{e.title}</span>
+        <span className="canvas-item-hash">{e.hash}</span>
+        <i className="iconfont icon-delete" onClick={event => this.deleteCanvas(e.hash)}></i>
+        </li>)
       })
       canvases = (<div className="dashboard-section canvases">
         <header>My Canvases<i className="iconfont icon-add" onClick={this.addNewCanvas}></i></header>

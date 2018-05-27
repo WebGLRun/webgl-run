@@ -53,7 +53,6 @@ class Sidebar extends React.Component<SidebarProps> {
       return
     }
     let canvas = await this.getCanvasByHash(param.key)
-    console.log(canvas)
     if(canvas) {
       await this.loadFile({
         title: canvas.title,
@@ -64,6 +63,10 @@ class Sidebar extends React.Component<SidebarProps> {
         }
       }, param.key)
     }
+  }
+
+  itemAClickHandler = (e: any) => {
+    e.preventDefault()
   }
 
   async loadFile(file: WebGLFile, hash: string) {
@@ -77,7 +80,7 @@ class Sidebar extends React.Component<SidebarProps> {
 
   render() {
     let items = this.props.listInfo.list.items.map((e, i) => {
-      return (<Menu.Item key={e.hash}>{e.title}</Menu.Item>)
+      return (<Menu.Item key={e.hash}><a onClick={this.itemAClickHandler} href={`//webgl.run/${e.hash}`}>{e.title}</a></Menu.Item>)
     })
     let menu
     if(this.props.listInfo.selected) {

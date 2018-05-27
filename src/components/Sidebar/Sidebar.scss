@@ -26,6 +26,10 @@
       height: 32px;
       line-height: 32px;
       margin-bottom: 4px;
+
+      &>a {
+        color: #d4d4d4;
+      }
     }
     .ant-menu-item-selected {
       background-color: #2e2e2e;

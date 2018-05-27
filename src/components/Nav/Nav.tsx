@@ -97,11 +97,10 @@ class Nav extends React.Component<NavProps> {
       }
     })
     if(result.data.success) {
-      message.success('Saved successfully!', () => {
-        if(!this.props.fileInfo.hash) {
-          location.href = `/${result.data.result.hash}`
-        }
-      })
+      message.success('Saved successfully, redirecting...')
+      if(!this.props.fileInfo.hash) {
+        location.href = `/${result.data.result.hash}`
+      }
     }else {
       message.error(result.data.error)
     }

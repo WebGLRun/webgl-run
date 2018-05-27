@@ -52,21 +52,38 @@
         }
       }
 
+      .canvas-item {
+        display: flex;
+        width: 600px;
+
+        .canvas-item-title {
+          width: 200px;
+          flex: none;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .canvas-item-hash {
+          flex: 1;
+          max-width: 150px;
+        }
+      }
+
       .lists-item {
         display: flex;
         width: 800px;
 
         .lists-item-title {
-          width: 150px;
+          width: 200px;
           flex: none;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
         .lists-item-content {
-          margin-left: 10px;
           flex: 1;
-          max-width: 650px;
+          margin-right: 50px;
+          max-width: 500px;
           word-wrap: break-word;
         }
       }
