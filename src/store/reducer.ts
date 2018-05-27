@@ -62,7 +62,19 @@ const initialState: RootState = {
     }
   },
   result: {
-    content: ``
+    content: generateResult({
+      html: '',
+      css: '',
+      js: '',
+      glsl: {
+        vertexShader: {
+          content: ''
+        },
+        fragmentShader: {
+          content: ''
+        }
+      }
+    })
   }
 }
 
