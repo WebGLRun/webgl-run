@@ -29,6 +29,8 @@
 
       &>a {
         color: #d4d4d4;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
     .ant-menu-item-selected {
