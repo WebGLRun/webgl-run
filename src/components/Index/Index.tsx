@@ -12,6 +12,10 @@ import '../Index/Index.scss'
 interface IndexProps {
   mode: string,
   fileInfo: FileInfo,
+  listInfo: {
+    list: list,
+    selected: string
+  },
   match: {
     params: {
       canvasHash?: string,
@@ -29,7 +33,8 @@ interface IndexProps {
 const mapStateToProps = (state: RootState) => {
   return {
     fileInfo: state.fileInfo,
-    mode: state.mode
+    mode: state.mode,
+    listInfo: state.listInfo
   }
 }
 
@@ -97,24 +102,25 @@ class Index extends React.Component<IndexProps> {
     }else if(this.props.match.params.listHash) {
       // list 模式
       this.props.setMode('list')
-
-      let result = await http.request({
-        method: 'get',
-        url: 'https://api.webgl.run/getList',
-        params: {
-          hash: this.props.match.params.listHash
-        }
-      })
-
-      if(result.data.success) {
-        this.props.setList({
-          title: result.data.result.title,
-          items: result.data.result.content,
-          hash: this.props.match.params.listHash
+      if(this.props.match.params.listHash !== this.props.listInfo.list.hash) {
+        let result = await http.request({
+          method: 'get',
+          url: 'https://api.webgl.run/getList',
+          params: {
+            hash: this.props.match.params.listHash
+          }
         })
-        this.props.setListSelected(result.data.result.content[0].hash)
-      }else {
-        message.error(result.data.error)
+
+        if(result.data.success) {
+          this.props.setList({
+            title: result.data.result.title,
+            items: result.data.result.content,
+            hash: this.props.match.params.listHash
+          })
+          this.props.setListSelected(result.data.result.content[0].hash)
+        }else {
+          message.error(result.data.error)
+        }
       }
     }else {
       // 新建模式

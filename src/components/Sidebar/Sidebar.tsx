@@ -3,7 +3,7 @@ import {connect, Dispatch} from 'react-redux'
 import {Menu, message} from 'antd'
 import data from '../../data/data'
 import http from '../../api/http'
-import {initEditor, clearEditor, setFileInfo} from '../../store/actions'
+import {initEditor, clearEditor, setFileInfo, setListSelected} from '../../store/actions'
 import 'antd/lib/menu/style/index.css'
 import './Sidebar.scss'
 import { ClickParam } from 'antd/lib/menu'
@@ -18,7 +18,7 @@ interface SidebarProps {
   }
   clearEditor: Function,
   initEditor: Function,
-  setSelected: Function,
+  setListSelected: Function,
   setFileInfo: Function
 }
 
@@ -38,6 +38,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     setFileInfo(fileInfo: FileInfo) {
       return dispatch(setFileInfo(fileInfo))
+    },
+    setListSelected(selected: string) {
+      return dispatch(setListSelected(selected))
     }
   }
 }
@@ -62,6 +65,7 @@ class Sidebar extends React.Component<SidebarProps> {
           nickName: canvas.nick_name
         }
       }, param.key)
+      this.props.setListSelected(param.key)
     }
   }
 
