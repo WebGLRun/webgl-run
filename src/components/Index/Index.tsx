@@ -68,7 +68,9 @@ class Index extends React.Component<IndexProps> {
             }
           })
         }else {
-          message.error(result.data.error)
+          message.error(result.data.error, () => {
+            location.href = '//webgl.run'
+          })
         }
       }
 

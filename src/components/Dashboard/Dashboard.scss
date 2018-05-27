@@ -1,0 +1,89 @@
+.dashbaord-container {
+  color: #ccc;
+
+  .dashboard-section {
+    margin-top: 100px;
+    padding-left: 200px;
+
+    &.lists {
+      margin-top: 100px;
+    }
+
+    &>header {
+      font-size: 32px;
+
+      .icon-add {
+        margin-left: 30px;
+        font-size: 28px;
+        opacity: 0.3;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .section-item-ul {
+      margin-top: 20px;
+
+      .section-item {
+        width: 300px;
+        font-size: 16px;
+        line-height: 30px;
+
+        .iconfont {
+          margin-left: 10px;
+          opacity: 0.3;
+          float: right;
+          cursor: pointer;
+          &:hover {
+            opacity: 1;
+            color: #fff;
+          }
+        }
+
+        &:hover {
+
+          span {
+            color: #fff;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .lists-item {
+        display: flex;
+        width: 800px;
+
+        .lists-item-title {
+          width: 150px;
+          flex: none;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .lists-item-content {
+          margin-left: 10px;
+          flex: 1;
+          max-width: 650px;
+          word-wrap: break-word;
+        }
+      }
+    }
+  }
+}
+
+.list-modal-row {
+  display: flex;
+  line-height: 32px;
+  margin-top: 15px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  label {
+    width: 100px;
+  }
+}

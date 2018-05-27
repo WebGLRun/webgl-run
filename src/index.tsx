@@ -6,6 +6,7 @@ import store from './store/reducer'
 import routes from './route/index'
 import history from './route/history'
 import 'minireset.css'
+import './Index.scss'
 
 ReactDOM.render(
   <Provider store={store}>

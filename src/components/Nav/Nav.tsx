@@ -62,7 +62,12 @@ class Nav extends React.Component<NavProps> {
   }
 
   newClickHandler = () => {
-    window.open('http://webgl.run', 'fromNew')
+    let reduxSessionCache = sessionStorage.getItem('redux')
+    sessionStorage.removeItem('redux')
+    window.open('//webgl.run', 'fromNew')
+    if(reduxSessionCache) {
+      sessionStorage.setItem('redux', reduxSessionCache)
+    }
   }
 
   saveClickHandler = async () => {
@@ -214,12 +219,25 @@ class Nav extends React.Component<NavProps> {
         this.logout()
         break
       }
+      case('gotoDashboard'): {
+        let reduxSessionCache = sessionStorage.getItem('redux')
+        sessionStorage.removeItem('redux')
+        window.open('//webgl.run/u/dashboard')
+        if(reduxSessionCache) {
+          sessionStorage.setItem('redux', reduxSessionCache)
+        }
+        break
+      }
     }
   }
 
   render() {
     const menu = (
       <Menu onClick={this.dropDownClickHandler}>
+        <Menu.Item key="gotoDashboard">
+          <p>Dashboard</p>
+        </Menu.Item>
+        <Menu.Divider />
         <Menu.Item key="logout">
           <p>Log out</p>
         </Menu.Item>
@@ -230,7 +248,7 @@ class Nav extends React.Component<NavProps> {
       auth = <span className="tool-button login" onClick={this.loginClickHandler}>Log in with Github</span>
     }else {
       auth = <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
-        <span className="tool-button">{this.props.user.nickName}</span>
+        <span className="tool-button">{this.props.user.nickName}<i className='iconfont icon-down'></i></span>
       </Dropdown>
     }
 
