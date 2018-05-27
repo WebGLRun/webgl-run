@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Cookies from 'js-cookie'
 import http from '../../api/http'
 import {message, Modal, Button, Input} from 'antd'
+import {newClickHandler} from '../Nav/Nav'
 import 'antd/lib/modal/style/index.css'
 import 'antd/lib/button/style/index.css'
 import 'antd/lib/input/style/index.css'
@@ -237,7 +238,7 @@ class Dashboard extends React.Component {
 
     return (<div className="dashbaord-container">
       <div className="nav-container">
-        <p className="nav-brand"><i className="iconfont icon-cube"></i> WebGL.Run</p>
+        <p onClick={newClickHandler} className="nav-brand"><i className="iconfont icon-cube"></i> WebGL.Run</p>
       </div>
       {loginTip}
       {canvases}

@@ -44,6 +44,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   }
 }
 
+export const newClickHandler = () => {
+  let reduxSessionCache = sessionStorage.getItem('redux')
+  sessionStorage.removeItem('redux')
+  window.open('//webgl.run', 'fromNew')
+  if(reduxSessionCache) {
+    sessionStorage.setItem('redux', reduxSessionCache)
+  }
+}
+
 class Nav extends React.Component<NavProps> {
 
   titleInputRef: any
@@ -59,15 +68,6 @@ class Nav extends React.Component<NavProps> {
   loginClickHandler = () => {
     let state = generateRandomString()
     popup(`https://github.com/login/oauth/authorize?client_id=b51c53f84d3a8df0ed43&scope=read:user&state=${state}`, 'Github OAuth', 600, 400)
-  }
-
-  newClickHandler = () => {
-    let reduxSessionCache = sessionStorage.getItem('redux')
-    sessionStorage.removeItem('redux')
-    window.open('//webgl.run', 'fromNew')
-    if(reduxSessionCache) {
-      sessionStorage.setItem('redux', reduxSessionCache)
-    }
   }
 
   saveClickHandler = async () => {
@@ -271,10 +271,10 @@ class Nav extends React.Component<NavProps> {
 
     return (
       <div className="nav-container">
-        <p className="nav-brand"><i className="iconfont icon-cube"></i> WebGL.Run</p>
+        <p className="nav-brand" onClick={newClickHandler}><i className="iconfont icon-cube"></i> WebGL.Run</p>
         <p className="title">{title}{editIcon}</p>
         <div className="nav-tool">
-          <span className="tool-button" onClick={this.newClickHandler}>New</span>
+          <span className="tool-button" onClick={newClickHandler}>New</span>
           {save}
           {fork}
           {auth}
