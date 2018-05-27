@@ -20,12 +20,24 @@ interface FileInfo {
   hash: string
 }
 
+interface list {
+  items: Array<listItemInfo>,
+  title: string,
+  hash: string
+}
+
+interface listItemInfo {
+  title: string,
+  hash: string
+}
+
 interface RootState {
+  mode: string,
   user: UserInfo,
   title: string,
-  selected: {
-    sub: string,
-    item: string
+  listInfo: {
+    list: list,
+    selected: string
   },
   fileInfo: FileInfo,
   creator: CreatorInfo,

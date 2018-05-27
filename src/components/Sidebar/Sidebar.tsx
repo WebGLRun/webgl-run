@@ -1,8 +1,9 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
-import {Menu} from 'antd'
+import {Menu, message} from 'antd'
 import data from '../../data/data'
-import {initEditor, clearEditor, setSelected, updateResult} from '../../store/actions'
+import http from '../../api/http'
+import {initEditor, clearEditor, setFileInfo} from '../../store/actions'
 import 'antd/lib/menu/style/index.css'
 import './Sidebar.scss'
 import { ClickParam } from 'antd/lib/menu'
@@ -11,19 +12,19 @@ const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup
 
 interface SidebarProps {
-  selected: {
-    sub: string,
-    item: string
+  listInfo: {
+    list: list,
+    selected: string
   }
   clearEditor: Function,
   initEditor: Function,
   setSelected: Function,
-  updateResult: Function
+  setFileInfo: Function
 }
 
 const mapStateToProps = (state: RootState) => {
   return {
-    selected: state.selected
+    listInfo: state.listInfo
   }
 }
 
@@ -35,11 +36,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     initEditor(file: WebGLFile) {
       return dispatch(initEditor(file))
     },
-    setSelected(selected: object) {
-      return dispatch(setSelected(selected))
-    },
-    updateResult() {
-      return dispatch(updateResult())
+    setFileInfo(fileInfo: FileInfo) {
+      return dispatch(setFileInfo(fileInfo))
     }
   }
 }
@@ -51,65 +49,84 @@ class Sidebar extends React.Component<SidebarProps> {
   }
 
   itemClickHandler = async (param: ClickParam) => {
-    let subMenu = data.find((e: any) => e.title === param.keyPath[1])
-    if(subMenu) {
-      let file
-      subMenu.children.some((e: any) => {
-        file = e.children.find((e: any) => e.title === param.keyPath[0])
-        return file
-      })
-      if(file) {
-        await this.loadFile(file)
-        this.props.updateResult()
-        this.props.setSelected({
-          sub: param.keyPath[1],
-          item: param.keyPath[0]
-        })
-      }
+    if(!param.key) {
+      return
+    }
+    let canvas = await this.getCanvasByHash(param.key)
+    console.log(canvas)
+    if(canvas) {
+      await this.loadFile({
+        title: canvas.title,
+        content: canvas.content,
+        creator: {
+          id: canvas.creator_id,
+          nickName: canvas.nick_name
+        }
+      }, param.key)
     }
   }
 
-  async loadFile(file: WebGLFile) {
+  async loadFile(file: WebGLFile, hash: string) {
     await this.props.clearEditor()
     await this.props.initEditor(file)
+    this.props.setFileInfo({
+      type: 'canvas',
+      hash
+    })
   }
 
   render() {
-    let subMenus = data.map(e => {
-      let groups = e.children.map(e => {
-        let items = e.children.map(e => {
-          return (<Menu.Item key={e.title}>{e.title}</Menu.Item>)
-        })
-        return [<MenuItemGroup key={e.title} title={e.title}>{items}</MenuItemGroup>]
-      })
-      return <SubMenu key={e.title} title={<span>{e.title}</span>}>{groups}</SubMenu>
+    let items = this.props.listInfo.list.items.map((e, i) => {
+      return (<Menu.Item key={e.hash}>{e.title}</Menu.Item>)
     })
+    let menu
+    if(this.props.listInfo.selected) {
+      menu = (<Menu
+        defaultSelectedKeys={[this.props.listInfo.selected]}
+        defaultOpenKeys={[this.props.listInfo.list.hash]}
+        onClick={this.itemClickHandler}
+        mode="inline">
+        <SubMenu key={this.props.listInfo.list.hash} title={<span>{this.props.listInfo.list.title}</span>}>{items}</SubMenu>
+      </Menu>)
+    }
     return (
       <div className="sidebar-container">
-        <Menu
-          defaultSelectedKeys={[this.props.selected.item || data[0].children[0].children[0].title]}
-          defaultOpenKeys={[this.props.selected.sub || data[0].title]}
-          onClick={this.itemClickHandler}
-          mode="inline">
-          {subMenus}
-        </Menu>
+        {menu}
       </div>
     )
   }
 
-  componentWillMount() {
-    if(!this.props.selected.item) {
-      this.loadFile(data[0].children[0].children[0] as WebGLFile)
-      this.props.setSelected({
-        sub: data[0].title,
-        item: data[0].children[0].children[0].title
+  async componentDidUpdate(prevProps: any) {
+    if(!prevProps.listInfo.selected && this.props.listInfo.selected) {
+      let canvas = await this.getCanvasByHash(this.props.listInfo.selected)
+      if(canvas) {
+        this.loadFile({
+          title: canvas.title,
+          content: canvas.content,
+          creator: {
+            id: canvas.creator_id,
+            nickName: canvas.nick_name
+          }
+        }, this.props.listInfo.selected)
+      }
+    }
+  }
+
+  getCanvasByHash = async (hash: string) => {
+    let result = await http.request({
+      method: 'get',
+      url: 'https://api.webgl.run/getCanvas',
+      params: {
+        hash: hash
+      }
+    })
+    if(result.data.success) {
+      let file = result.data.result
+      return file
+    }else {
+      message.error(result.data.error, () => {
+        location.href = '//webgl.run'
       })
-      let timer = window.setInterval(() => {
-        if((window as any).ts) {
-          this.props.updateResult()
-          window.clearInterval(timer)
-        }
-      }, 200)
     }
   }
 }

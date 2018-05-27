@@ -1,6 +1,13 @@
 import * as types from './types'
 import { Dispatch } from 'react-redux';
 
+export function setMode(mode: string) {
+  return {
+    type: types.SET_MODE,
+    mode
+  }
+}
+
 export function setTitle(title: string) {
   return {
     type: types.SET_TITLE,
@@ -40,9 +47,16 @@ export function setGLSL({name, glsl}: {
   }
 }
 
-export function setSelected(selected: Object) {
+export function setList(list:list) {
   return {
-    type: types.SET_SELECTED,
+    type: types.SET_LIST,
+    list
+  }
+}
+
+export function setListSelected(selected: string) {
+  return {
+    type: types.SET_LIST_SELECTED,
     selected
   }
 }

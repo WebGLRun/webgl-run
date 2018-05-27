@@ -4,26 +4,32 @@ import {message} from 'antd'
 import Editor from '../Editor/Editor'
 import Nav from '../Nav/Nav'
 import Sidebar from '../Sidebar/Sidebar'
-import {setFileInfo, initEditor, resetStore} from '../../store/actions'
+import {setFileInfo, initEditor, resetStore, setMode, setList, setListSelected} from '../../store/actions'
 import http from '../../api/http'
 import '../../../assets/iconfont/iconfont.css'
 import '../Index/Index.scss'
 
 interface IndexProps {
+  mode: string,
   fileInfo: FileInfo,
   match: {
     params: {
-      canvasHash: string
+      canvasHash?: string,
+      listHash?: string
     }
   },
   setFileInfo: Function,
   initEditor: Function,
-  resetStore: Function
+  resetStore: Function,
+  setMode: Function,
+  setList: Function,
+  setListSelected: Function
 }
 
 const mapStateToProps = (state: RootState) => {
   return {
-    fileInfo: state.fileInfo
+    fileInfo: state.fileInfo,
+    mode: state.mode
   }
 }
 
@@ -32,11 +38,20 @@ const mapDispatchToProps= (dispatch: Dispatch) => {
     setFileInfo(fileInfo: FileInfo) {
       dispatch(setFileInfo(fileInfo))
     },
+    setMode(mode: string) {
+      dispatch(setMode(mode))
+    },
     initEditor(file: WebGLFile) {
       dispatch(initEditor(file))
     },
     resetStore() {
       dispatch(resetStore())
+    },
+    setList(list: list) {
+      dispatch(setList(list))
+    },
+    setListSelected(selected: string) {
+      dispatch(setListSelected(selected))
     }
   }
 }
@@ -49,6 +64,8 @@ class Index extends React.Component<IndexProps> {
 
   async componentWillMount() {
     if(this.props.match.params.canvasHash) {
+      // canvas 展示模式
+      this.props.setMode('canvas')
       if(this.props.fileInfo.hash !== this.props.match.params.canvasHash) {
         let result = await http.request({
           method: 'get',
@@ -73,12 +90,34 @@ class Index extends React.Component<IndexProps> {
           })
         }
       }
-
       this.props.setFileInfo({
         type: 'canvas',
         hash: this.props.match.params.canvasHash
       })
+    }else if(this.props.match.params.listHash) {
+      // list 模式
+      this.props.setMode('list')
+
+      let result = await http.request({
+        method: 'get',
+        url: 'https://api.webgl.run/getList',
+        params: {
+          hash: this.props.match.params.listHash
+        }
+      })
+
+      if(result.data.success) {
+        this.props.setList({
+          title: result.data.result.title,
+          items: result.data.result.content,
+          hash: this.props.match.params.listHash
+        })
+        this.props.setListSelected(result.data.result.content[0].hash)
+      }else {
+        message.error(result.data.error)
+      }
     }else {
+      // 新建模式
       this.props.setFileInfo({
         type: 'canvas',
         hash: ''
@@ -92,7 +131,7 @@ class Index extends React.Component<IndexProps> {
   render() {
 
     let sidebar
-    if(this.props.fileInfo.type === 'list') {
+    if(this.props.mode === 'list') {
       sidebar = <Sidebar></Sidebar>
     }
 

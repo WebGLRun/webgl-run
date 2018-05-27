@@ -27,6 +27,12 @@ const routes = [
     exact: true,
     component: OAuth,
     name: 'OAuth'
+  },
+  {
+    path: '/list/:listHash',
+    exact: true,
+    component: Index,
+    name: 'List'
   }
 ]
 

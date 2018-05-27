@@ -198,13 +198,15 @@ class Editor extends React.Component<EditorProps> {
 
   componentDidMount() {
     if(this.leftPanelRef) {
-      this.setState({
-        leftPanelStyle: {
-          flex: 'none',
-        }
-      })
       if(!this.props.verticalDivider) {
-        this.props.setVerticalDividerPosition(this.leftPanelRef.getBoundingClientRect().width)
+        setTimeout(() => {
+          this.props.setVerticalDividerPosition(this.leftPanelRef.getBoundingClientRect().width)
+          this.setState({
+            leftPanelStyle: {
+              flex: 'none',
+            }
+          })
+        }, 500)
       }
     }
   }

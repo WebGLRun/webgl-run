@@ -8,6 +8,7 @@ import data from '../data/data'
 const persistState = require('redux-sessionstorage')
 
 const initialState: RootState = {
+  mode: 'canvas',
   user: {
     oauthType: '',
     nickName: 'Anonymous',
@@ -22,9 +23,13 @@ const initialState: RootState = {
     type: 'canvas',
     hash: ''
   },
-  selected: {
-    sub: '',
-    item: ''
+  listInfo: {
+    list: {
+      hash: '',
+      title: 'Default List',
+      items: []
+    },
+    selected: ''
   },
   editor: {
     htmlEditor: {
@@ -119,10 +124,21 @@ const reducer = (state: RootState = initialState, action: Action) => {
         }
       })
     }
-    case(types.SET_SELECTED): {
+    case(types.SET_LIST): {
       return update(state, {
-        selected: {
-          $set: action.selected
+        listInfo: {
+          list: {
+            $set: action.list
+          }
+        }
+      })
+    }
+    case(types.SET_LIST_SELECTED): {
+      return update(state, {
+        listInfo: {
+          selected: {
+            $set: action.selected
+          }
         }
       })
     }
@@ -203,6 +219,13 @@ const reducer = (state: RootState = initialState, action: Action) => {
       return update(state, {
         fileInfo: {
           $set: action.fileInfo
+        }
+      })
+    }
+    case(types.SET_MODE): {
+      return update(state, {
+        mode: {
+          $set: action.mode
         }
       })
     }
