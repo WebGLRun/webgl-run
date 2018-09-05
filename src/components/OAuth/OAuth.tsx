@@ -51,7 +51,7 @@ class OAuth extends React.Component<OAuthProps> {
   render() {
     return (
       <div className="oauth-container">
-        <p>Logining...</p>
+        <p>Logining, please wait...</p>
         <p>{this.state.info}</p>
       </div>
     )
