@@ -41,9 +41,13 @@
             opacity: 1;
             color: #fff;
           }
+          opacity: 0;
         }
 
         &:hover {
+          .iconfont {
+            opacity: 0.3;
+          }
 
           span:first-child {
             color: #fff;
