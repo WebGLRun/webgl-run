@@ -4,7 +4,6 @@ import update from 'immutability-helper'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import * as types from './types'
 import {generateResult} from '../utils/generateResult'
-import data from '../data/data'
 const persistState = require('redux-sessionstorage')
 
 const initialState: RootState = {
@@ -39,25 +38,26 @@ const initialState: RootState = {
       content: ``
     },
     jsEditor: {
-      content: ``
+      content: `// Want to start with a template?
+// Just click the 'template' dropdown menu on the navigation bar!`
     },
     glslEditor: {
       vertexShader: {
-        content: `// use $shaders.vertexShader in js to access`
+        content: `// use $shaders.vertexShader in js to access.`
       },
       fragmentShader: {
-        content: `// use $shaders.fragmentShader in js to access`
+        content: `// use $shaders.fragmentShader in js to access.`
       }
     }
   },
   dividerPosition: {
     verticalDivider: 0,
     leftHorizontalDivider: {
-      [0]: 36,
+      [0]: 75,
       [1]: 250
     },
     rightHorizontalDivider: {
-      [0]: 36,
+      [0]: 75,
       [1]: 250
     }
   },
