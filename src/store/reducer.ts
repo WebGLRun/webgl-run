@@ -84,6 +84,7 @@ const reducer = (state: RootState = initialState, action: Action) => {
       return JSON.parse(JSON.stringify(initialState))
     }
     case(types.SET_TITLE): {
+      document.title = `${action.title} - WebGL Run`
       return update(state, {
         title: {
           $set: action.title
