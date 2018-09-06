@@ -1,10 +1,9 @@
 import * as React from 'react'
-import * as qs from 'qs'
 import * as Cookies from 'js-cookie'
 import {connect, Dispatch} from 'react-redux'
 import {generateRandomString, popup} from '../../utils/utils'
 import {generateResult} from '../../utils/generateResult'
-import {message, Dropdown, Menu} from 'antd'
+import {message, Dropdown, Menu, Icon} from 'antd'
 import {setUser, setTitle} from '../../store/actions'
 import http from '../../api/http'
 import 'antd/lib/message/style/index.css'
@@ -97,9 +96,11 @@ class Nav extends React.Component<NavProps> {
       }
     })
     if(result.data.success) {
-      message.success('Saved successfully, redirecting...')
       if(!this.props.fileInfo.hash) {
+        message.success('Saved successfully, redirecting...')
         location.href = `/${result.data.result.hash}`
+      }else {
+        message.success('Saved successfully.')
       }
     }else {
       message.error(result.data.error)
@@ -230,6 +231,27 @@ class Nav extends React.Component<NavProps> {
     }
   }
 
+  templateDropDownClickHandler = (e: any) => {
+    switch(e.key) {
+      case('raw-webgl'): {
+        window.open('https://webgl.run/SyBlG2Cw7')
+        break
+      }
+      case('three'): {
+        window.open('https://webgl.run/SJAaghADQ')
+        break
+      }
+      case('vue'): {
+        window.open('https://webgl.run/SkL8m3RPX')
+        break
+      }
+      case('react'): {
+        window.open('https://webgl.run/BytXHn0DQ')
+        break
+      }
+    }
+  }
+
   render() {
     const menu = (
       <Menu onClick={this.dropDownClickHandler}>
@@ -239,6 +261,25 @@ class Nav extends React.Component<NavProps> {
         <Menu.Divider />
         <Menu.Item key="logout">
           <p>Log out</p>
+        </Menu.Item>
+      </Menu>
+    )
+    const templateMenu = (
+      <Menu onClick={this.templateDropDownClickHandler}>
+        <Menu.Item key="three">
+          <p>Three.js</p>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="raw-webgl">
+          <p>Raw WebGL</p>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="vue">
+          <p>Vue</p>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="react">
+          <p>React</p>
         </Menu.Item>
       </Menu>
     )
@@ -271,7 +312,15 @@ class Nav extends React.Component<NavProps> {
 
     return (
       <div className="nav-container">
-        <p className="nav-brand" onClick={newClickHandler}><i className="iconfont icon-cube"></i> WebGL.Run</p>
+        <p className="nav-left-panel">
+          <span className="nav-logo" onClick={newClickHandler}>
+            <i className="iconfont icon-cube"></i>
+            <span>WebGL.Run</span>
+          </span>
+          <Dropdown overlay={templateMenu}>
+            <span className="ant-dropdown-link nav-template">Template <Icon type="down" /></span>
+          </Dropdown>
+        </p>
         <p className="title">{title}{editIcon}</p>
         <div className="nav-tool">
           <span className="tool-button" onClick={newClickHandler}>New</span>

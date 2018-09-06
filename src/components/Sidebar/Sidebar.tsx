@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {connect, Dispatch} from 'react-redux'
 import {Menu, message} from 'antd'
-import data from '../../data/data'
 import http from '../../api/http'
 import {initEditor, clearEditor, setFileInfo, setListSelected} from '../../store/actions'
 import 'antd/lib/menu/style/index.css'
@@ -9,7 +8,6 @@ import './Sidebar.scss'
 import { ClickParam } from 'antd/lib/menu'
 
 const SubMenu = Menu.SubMenu
-const MenuItemGroup = Menu.ItemGroup
 
 interface SidebarProps {
   listInfo: {

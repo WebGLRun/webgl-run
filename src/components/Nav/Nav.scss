@@ -12,12 +12,21 @@
     font-size: 20px;
   }
 
-  .nav-brand {
+  .nav-left-panel {
     display: flex;
     align-items: center;
     font-size: 16px;
     margin-left: 30px;
-    cursor: pointer;
+
+    .nav-logo {
+      cursor: pointer;
+    }
+
+    .nav-template {
+      margin-left: 30px;
+      font-size: 12px;
+      cursor: pointer;
+    }
   }
 
   .title {
