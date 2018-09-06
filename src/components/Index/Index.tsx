@@ -89,6 +89,7 @@ class Index extends React.Component<IndexProps> {
               nickName: file.nick_name
             }
           })
+          document.title = `${file.title} - WebGL Run`
         }else {
           message.error(result.data.error, () => {
             location.href = '//webgl.run'

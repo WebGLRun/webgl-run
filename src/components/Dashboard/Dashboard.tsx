@@ -23,6 +23,7 @@ class Dashboard extends React.Component {
   }
 
   async componentWillMount() {
+    document.title = 'Dashboard - WebGL Run'
     await this.getProfile()
   }
 

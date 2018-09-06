@@ -74,6 +74,7 @@ class Sidebar extends React.Component<SidebarProps> {
   async loadFile(file: WebGLFile, hash: string) {
     await this.props.clearEditor()
     await this.props.initEditor(file)
+    document.title = `${file.title} - ${this.props.listInfo.list.title} - WebGL Run`
     this.props.setFileInfo({
       type: 'canvas',
       hash
