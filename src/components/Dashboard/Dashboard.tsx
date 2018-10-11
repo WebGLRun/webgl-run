@@ -237,9 +237,14 @@ class Dashboard extends React.Component {
       </div>)
     }
 
-    return (<div className="dashbaord-container">
+    return (<div className="dashboard-container">
       <div className="nav-container">
-        <p onClick={newClickHandler} className="nav-brand"><i className="iconfont icon-cube"></i> WebGL.Run</p>
+        <p className="nav-left-panel">
+          <span className="nav-logo" onClick={newClickHandler}>
+            <i className="iconfont icon-cube"></i>
+            <span>WebGL.Run</span>
+          </span>
+        </p>
       </div>
       {loginTip}
       {canvases}

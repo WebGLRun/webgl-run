@@ -1,4 +1,4 @@
-.dashbaord-container {
+.dashboard-container {
   color: #ccc;
 
   .dashboard-section {
@@ -61,7 +61,7 @@
         width: 600px;
 
         .canvas-item-title {
-          width: 200px;
+          width: 300px;
           flex: none;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -75,10 +75,10 @@
 
       .lists-item {
         display: flex;
-        width: 800px;
+        width: 900px;
 
         .lists-item-title {
-          width: 200px;
+          width: 300px;
           flex: none;
           overflow: hidden;
           text-overflow: ellipsis;

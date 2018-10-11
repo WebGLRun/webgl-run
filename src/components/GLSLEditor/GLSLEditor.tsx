@@ -6,10 +6,14 @@ const debounce = require('lodash.debounce')
 import './GLSLEditor.scss'
 
 interface GLSLEditorProps {
-  name: string,
   content: string,
   setGLSL: Function,
   updateResult: Function
+}
+
+interface passedProps {
+  name: string,
+  showTitle: Boolean
 }
 
 interface GLSLEditorStates {
@@ -37,9 +41,9 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
   }
 }
 
-class GLSLEditor extends React.Component<GLSLEditorProps> {
+class GLSLEditor extends React.Component<GLSLEditorProps & passedProps> {
 
-  constructor(props: GLSLEditorProps) {
+  constructor(props: GLSLEditorProps & passedProps) {
     super(props)
   }
 
@@ -51,7 +55,7 @@ class GLSLEditor extends React.Component<GLSLEditorProps> {
   render() {
     return (
       <div className="glsleditor-container editor-item">
-        <header>GLSL: {this.props.name}</header>
+        {this.props.showTitle ? <header>GLSL: {this.props.name}</header> : ''}
         <div id={'glsleditor-' + this.props.name} className="glsleditor-hook"></div>
       </div>
     )

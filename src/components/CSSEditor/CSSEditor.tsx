@@ -10,6 +10,10 @@ interface CSSEditorProps {
   updateResult: Function
 }
 
+interface passedProps {
+  showTitle: Boolean
+}
+
 interface CSSEditorState {
   editor: any,
   timer: number
@@ -31,9 +35,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   }
 }
 
-class CSSEditor extends React.Component<CSSEditorProps > {
+class CSSEditor extends React.Component<CSSEditorProps & passedProps> {
 
-  constructor(props: CSSEditorProps) {
+  constructor(props: CSSEditorProps & passedProps) {
     super(props)
   }
 
@@ -45,7 +49,7 @@ class CSSEditor extends React.Component<CSSEditorProps > {
   render() {
     return (
       <div className="csseditor-container editor-item">
-        <header>CSS</header>
+        {this.props.showTitle ? <header>CSS</header> : ''}
         <div id="csseditor"></div>
       </div>
     )
@@ -92,4 +96,4 @@ class CSSEditor extends React.Component<CSSEditorProps > {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CSSEditor as any)
+export default connect<{}, {}, passedProps>(mapStateToProps, mapDispatchToProps)(CSSEditor as any)

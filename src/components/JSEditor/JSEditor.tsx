@@ -12,6 +12,10 @@ interface JSEditorProps {
   updateResult: Function
 }
 
+interface passedProps {
+  showTitle: Boolean
+}
+
 interface JSEditorStates {
   editor: any,
   timer: number
@@ -34,9 +38,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   }
 }
 
-class JSEditor extends React.Component<JSEditorProps> {
+class JSEditor extends React.Component<JSEditorProps & passedProps> {
 
-  constructor(props: JSEditorProps) {
+  constructor(props: JSEditorProps & passedProps) {
     super(props)
   }
 
@@ -48,7 +52,7 @@ class JSEditor extends React.Component<JSEditorProps> {
   render() {
     return (
       <div className="jseditor-container editor-item">
-        <header>JavaScript</header>
+        {this.props.showTitle ? <header>JavaScript</header> : ''}
         <div id="jseditor"></div>
       </div>
     )
@@ -112,4 +116,4 @@ class JSEditor extends React.Component<JSEditorProps> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(JSEditor as any)
+export default connect<{}, {}, passedProps>(mapStateToProps, mapDispatchToProps)(JSEditor as any)

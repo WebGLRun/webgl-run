@@ -1,0 +1,48 @@
+.embed-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  .embed-webgl-run-hook {
+    position: absolute;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    right: 0;
+    top: 0;
+    height: 40px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    &:hover {
+      color: #569cd6;
+    }
+  }
+
+  .ant-tabs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .ant-tabs-bar {
+    flex: none;
+    margin: 0;
+    border-bottom: 1px solid #555;
+  }
+  .ant-tabs-content {
+    flex: 1;
+  }
+  .ant-tabs-tab {
+    color: #ccc;
+    margin: 0;
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+  .ant-tabs-tab-active {
+    color: #569cd6;
+  }
+  .ant-tabs-ink-bar {
+    background-color: #569cd6;
+  }
+}

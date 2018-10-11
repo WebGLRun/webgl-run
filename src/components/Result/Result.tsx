@@ -8,6 +8,10 @@ interface ResultProps {
   result: string
 }
 
+interface passedProps {
+  showTitle: Boolean
+}
+
 interface ResultState {
   iframe: null | Iframe,
   showConsole: boolean,
@@ -21,9 +25,9 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-class Result extends React.Component<ResultProps> {
+class Result extends React.Component<ResultProps & passedProps> {
 
-  constructor(props: ResultProps) {
+  constructor(props: ResultProps & passedProps) {
     super(props)
   }
 
@@ -85,12 +89,14 @@ class Result extends React.Component<ResultProps> {
   render() {
     return (
       <div className="result-container editor-item" style={this.state.fullScreen ? this.fullScreenStyle as any : {}}>
-        <header>Result
-          <i className={`iconfont icon-meter ${this.state.showMeter ? 'active' : ''}`} onClick={this.meterIconClickHandler}></i>
-          <i className={`iconfont icon-console ${this.state.showConsole ? 'active' : ''}`} onClick={this.consoleIconClickHandler}></i>
-          <i className={`iconfont ${this.state.fullScreen ? 'icon-fullscreenexit' : 'icon-full-screen'}`} onClick={this.fullScreenIconClickHandler}></i>
-          <i className="iconfont icon-refresh" onClick={this.refreshIconClickHandler}></i>
-        </header>
+        {this.props.showTitle ?
+          <header>Result
+            <i className={`iconfont icon-meter ${this.state.showMeter ? 'active' : ''}`} onClick={this.meterIconClickHandler}></i>
+            <i className={`iconfont icon-console ${this.state.showConsole ? 'active' : ''}`} onClick={this.consoleIconClickHandler}></i>
+            <i className={`iconfont ${this.state.fullScreen ? 'icon-fullscreenexit' : 'icon-full-screen'}`} onClick={this.fullScreenIconClickHandler}></i>
+            <i className="iconfont icon-refresh" onClick={this.refreshIconClickHandler}></i>
+          </header> : ''
+        }
         <div className="result-content">
           <div id="result-hook" ref="resultHook"></div>
         </div>

@@ -10,6 +10,10 @@ interface HTMLEditorProps {
   updateResult: Function
 }
 
+interface passedProps {
+  showTitle: Boolean
+}
+
 interface HTMLEditorStates {
   editor: any,
   timer: number
@@ -32,9 +36,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   }
 }
 
-class HTMLEditor extends React.Component<HTMLEditorProps> {
+class HTMLEditor extends React.Component<HTMLEditorProps & passedProps> {
 
-  constructor(props: HTMLEditorProps) {
+  constructor(props: HTMLEditorProps & passedProps) {
     super(props)
   }
 
@@ -46,7 +50,7 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
   render() {
     return (
       <div className="htmleditor-container editor-item">
-        <header>HTML</header>
+        {this.props.showTitle ? <header>HTML</header> : ''}
         <div id="htmleditor"></div>
       </div>
     )
@@ -96,4 +100,4 @@ class HTMLEditor extends React.Component<HTMLEditorProps> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HTMLEditor as any)
+export default connect<{}, {}, passedProps>(mapStateToProps, mapDispatchToProps)(HTMLEditor as any)
