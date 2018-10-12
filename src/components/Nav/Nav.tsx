@@ -234,19 +234,19 @@ class Nav extends React.Component<NavProps> {
   templateDropDownClickHandler = (e: any) => {
     switch(e.key) {
       case('raw-webgl'): {
-        window.open('https://webgl.run/SyBlG2Cw7')
+        window.open('//webgl.run/SyBlG2Cw7')
         break
       }
       case('three'): {
-        window.open('https://webgl.run/SJAaghADQ')
+        window.open('//webgl.run/SJAaghADQ')
         break
       }
       case('vue'): {
-        window.open('https://webgl.run/SkL8m3RPX')
+        window.open('//webgl.run/SkL8m3RPX')
         break
       }
       case('react'): {
-        window.open('https://webgl.run/BytXHn0DQ')
+        window.open('//webgl.run/BytXHn0DQ')
         break
       }
     }

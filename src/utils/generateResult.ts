@@ -15,8 +15,6 @@ const htmlTemplate = `<!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
     <title>WebGL Run Result</title>
-    <script src="/assets/js/pace.min.js"></script>
-    <link href="/assets/js/pace.css" rel="stylesheet" />
     <script src="/assets/js/vconsole.min.js"></script>
     <script src="/assets/js/stats.min.js"></script>
     <script>

@@ -8,6 +8,7 @@ import CSSEditor from '../CSSEditor/CSSEditor'
 import JSEditor from '../JSEditor/JSEditor'
 import Result from '../Result/Result'
 import GLSLEditor from '../GLSLEditor/GLSLEditor'
+import qs from 'qs'
 import 'antd/lib/tabs/style/index.css'
 import './Embed.scss'
 
@@ -21,7 +22,15 @@ interface EmbedProps {
     params: {
       canvasHash?: string
     }
+  },
+  location: {
+    search: string
   }
+}
+
+interface EmbedStates {
+  lazyload: boolean,
+  run: false
 }
 
 const mapStateToProps = (state: RootState) => {
@@ -42,13 +51,34 @@ const mapDispatchToProps= (dispatch: Dispatch) => {
 }
 
 class Embed extends React.Component<EmbedProps> {
+
   constructor(props: EmbedProps) {
     super(props)
   }
 
+  state: EmbedStates = {
+    lazyload: false,
+    run: false
+  }
+
   embedRef: any
 
+  buttonClickHandler = () => {
+    this.setState({
+      run: true
+    })
+  }
+
   async componentWillMount() {
+    let params = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true
+    })
+    if(params.lazyload === 'true') {
+      this.setState({
+        lazyload: true
+      })
+    }
+
     let result = await http.request({
       method: 'get',
       url: 'https://api.webgl.run/getCanvas',
@@ -81,23 +111,48 @@ class Embed extends React.Component<EmbedProps> {
   }
 
   render() {
+
+    let lazyloadContent = [
+      <Tabs defaultActiveKey="Result" key="lazyload-tab">
+        <TabPane tab="HTML" key="HTML">
+          <div></div>
+        </TabPane>
+        <TabPane tab="CSS" key="CSS">
+          <div></div>
+        </TabPane>
+        <TabPane tab="JavaScript" key="JavaScript">
+          <div></div>
+        </TabPane>
+        <TabPane tab="Result" key="Result">
+          <div></div>
+        </TabPane>
+      </Tabs>,
+      <div className="lazyload-mask" key="lazyload-mask">
+        <p className="lazyload-run-button" onClick={this.buttonClickHandler}><span className="iconfont icon-play"></span>Run Canvas</p>
+      </div>
+    ]
+
+    let content = (
+    <Tabs defaultActiveKey="Result">
+      <TabPane tab="HTML" key="HTML">
+        <HTMLEditor showTitle={false}></HTMLEditor>
+      </TabPane>
+      <TabPane tab="CSS" key="CSS">
+        <CSSEditor showTitle={false}></CSSEditor>
+      </TabPane>
+      <TabPane tab="JavaScript" key="JavaScript">
+        <JSEditor showTitle={false}></JSEditor>
+      </TabPane>
+      <TabPane tab="Result" key="Result">
+        <Result showTitle={false}></Result>
+      </TabPane>
+    </Tabs>
+    )
+
     return (
       <div className="embed-container" ref={ref => this.embedRef = ref}>
-        <Tabs defaultActiveKey="Result">
-          <TabPane tab="HTML" key="HTML">
-            <HTMLEditor showTitle={false}></HTMLEditor>
-          </TabPane>
-          <TabPane tab="CSS" key="CSS">
-            <CSSEditor showTitle={false}></CSSEditor>
-          </TabPane>
-          <TabPane tab="JavaScript" key="JavaScript">
-            <JSEditor showTitle={false}></JSEditor>
-          </TabPane>
-          <TabPane tab="Result" key="Result">
-            <Result showTitle={false}></Result>
-          </TabPane>
-        </Tabs>
-        <p className="embed-webgl-run-hook" onClick={this.linkClickHandler}>Edit on WebGL.Run</p>
+        {!this.state.lazyload || (this.state.lazyload && this.state.run) ? content : lazyloadContent}
+        <p className="embed-webgl-run-hook" onClick={this.linkClickHandler}>Edit on<span className="iconfont icon-cube"></span>WebGL.Run</p>
       </div>
     )
   }
