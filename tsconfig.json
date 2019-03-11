@@ -16,6 +16,9 @@
     "lib": ["es5", "es6", "dom"]
   },
   "include": [
-      "./src/**/*"
+    "./src/**/*"
+  ],
+  "files": [
+    "./types/global.d.ts"
   ]
 }
