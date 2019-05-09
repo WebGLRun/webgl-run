@@ -5,13 +5,23 @@
 
   .ant-menu-root {
     height: 100%;
-    background-color: #1e1e1e;
     border-right: 1px solid #555;
 
     .ant-menu-sub {
+      flex: 1;
+      height: 0;
+      overflow-y: auto;
+      width: 100%;
+      background-color: #1e1e1e;
+    }
+    .ant-menu-submenu {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
       background-color: #1e1e1e;
     }
     .ant-menu-submenu-title {
+      flex: none;
       color: #d4d4d4;
       height: 36px;
       line-height: 36px;
@@ -26,6 +36,7 @@
       height: 32px;
       line-height: 32px;
       margin-bottom: 4px;
+      width: 100%;
 
       &>a {
         color: #d4d4d4;
