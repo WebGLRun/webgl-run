@@ -315,7 +315,7 @@ class Nav extends React.Component<NavProps> {
         <p className="nav-left-panel">
           <span className="nav-logo" onClick={newClickHandler}>
             <i className="iconfont icon-cube"></i>
-            <span>webgl.404forest.com</span>
+            <span>webgl.run</span>
           </span>
           <Dropdown overlay={templateMenu}>
             <span className="ant-dropdown-link nav-template">Template <Icon type="down" /></span>
