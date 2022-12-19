@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export const newClickHandler = () => {
   let reduxSessionCache = sessionStorage.getItem('redux')
   sessionStorage.removeItem('redux')
-  window.open('//webgl.run', 'fromNew')
+  window.open('//webgl.404forest.com', 'fromNew')
   if(reduxSessionCache) {
     sessionStorage.setItem('redux', reduxSessionCache)
   }
@@ -222,7 +222,7 @@ class Nav extends React.Component<NavProps> {
       case('gotoDashboard'): {
         let reduxSessionCache = sessionStorage.getItem('redux')
         sessionStorage.removeItem('redux')
-        window.open('//webgl.run/u/dashboard')
+        window.open('//webgl.404forest.com/u/dashboard')
         if(reduxSessionCache) {
           sessionStorage.setItem('redux', reduxSessionCache)
         }
@@ -234,19 +234,19 @@ class Nav extends React.Component<NavProps> {
   templateDropDownClickHandler = (e: any) => {
     switch(e.key) {
       case('raw-webgl'): {
-        window.open('//webgl.run/SyBlG2Cw7')
+        window.open('//webgl.404forest.com/SyBlG2Cw7')
         break
       }
       case('three'): {
-        window.open('//webgl.run/SJAaghADQ')
+        window.open('//webgl.404forest.com/SJAaghADQ')
         break
       }
       case('vue'): {
-        window.open('//webgl.run/SkL8m3RPX')
+        window.open('//webgl.404forest.com/SkL8m3RPX')
         break
       }
       case('react'): {
-        window.open('//webgl.run/BytXHn0DQ')
+        window.open('//webgl.404forest.com/BytXHn0DQ')
         break
       }
     }
@@ -315,7 +315,7 @@ class Nav extends React.Component<NavProps> {
         <p className="nav-left-panel">
           <span className="nav-logo" onClick={newClickHandler}>
             <i className="iconfont icon-cube"></i>
-            <span>WebGL.Run</span>
+            <span>webgl.404forest.com</span>
           </span>
           <Dropdown overlay={templateMenu}>
             <span className="ant-dropdown-link nav-template">Template <Icon type="down" /></span>

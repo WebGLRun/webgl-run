@@ -52,11 +52,11 @@ class Dashboard extends React.Component {
   }
 
   gotoCanvas = (hash: string) => {
-    window.open(`//webgl.run/${hash}`)
+    window.open(`//webgl.404forest.com/${hash}`)
   }
 
   addNewCanvas = () => {
-    window.open(`//webgl.run`)
+    window.open(`//webgl.404forest.com`)
   }
 
   addlist = () => {
@@ -75,7 +75,7 @@ class Dashboard extends React.Component {
   }
 
   gotoLists = (hash: string) => {
-    window.open(`//webgl.run/list/${hash}`)
+    window.open(`//webgl.404forest.com/list/${hash}`)
   }
 
   deleteCanvas = (hash: string) => {
@@ -242,7 +242,7 @@ class Dashboard extends React.Component {
         <p className="nav-left-panel">
           <span className="nav-logo" onClick={newClickHandler}>
             <i className="iconfont icon-cube"></i>
-            <span>WebGL.Run</span>
+            <span>webgl.404forest.com</span>
           </span>
         </p>
       </div>

@@ -83,7 +83,7 @@ class Sidebar extends React.Component<SidebarProps> {
 
   render() {
     let items = this.props.listInfo.list.items.map((e, i) => {
-      return (<Menu.Item key={e.hash}><a onClick={this.itemAClickHandler} href={`//webgl.run/${e.hash}`}>{e.title}</a></Menu.Item>)
+      return (<Menu.Item key={e.hash}><a onClick={this.itemAClickHandler} href={`//webgl.404forest.com/${e.hash}`}>{e.title}</a></Menu.Item>)
     })
     let menu
     if(this.props.listInfo.selected) {
@@ -131,7 +131,7 @@ class Sidebar extends React.Component<SidebarProps> {
       return file
     }else {
       message.error(result.data.error, () => {
-        location.href = '//webgl.run'
+        location.href = '//webgl.404forest.com'
       })
     }
   }

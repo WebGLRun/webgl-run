@@ -107,7 +107,7 @@ class Embed extends React.Component<EmbedProps> {
   }
 
   linkClickHandler = () => {
-    window.open(`//webgl.run/${this.props.fileInfo.hash}`)
+    window.open(`//webgl.404forest.com/${this.props.fileInfo.hash}`)
   }
 
   render() {
@@ -152,7 +152,7 @@ class Embed extends React.Component<EmbedProps> {
     return (
       <div className="embed-container" ref={ref => this.embedRef = ref}>
         {!this.state.lazyload || (this.state.lazyload && this.state.run) ? content : lazyloadContent}
-        <p className="embed-webgl-run-hook" onClick={this.linkClickHandler}>Edit on<span className="iconfont icon-cube"></span>WebGL.Run</p>
+        <p className="embed-webgl-run-hook" onClick={this.linkClickHandler}>Edit on<span className="iconfont icon-cube"></span>webgl.404forest.com</p>
       </div>
     )
   }
