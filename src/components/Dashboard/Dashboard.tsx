@@ -242,7 +242,7 @@ class Dashboard extends React.Component {
         <p className="nav-left-panel">
           <span className="nav-logo" onClick={newClickHandler}>
             <i className="iconfont icon-cube"></i>
-            <span>webgl.404forest.com</span>
+            <span>webgl.run</span>
           </span>
         </p>
       </div>
