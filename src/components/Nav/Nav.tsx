@@ -84,7 +84,7 @@ class Nav extends React.Component<NavProps> {
 
     let result = await http.request({
       method: 'POST',
-      url: 'https://api.webgl.run/saveCanvas',
+      url: 'https://webgl.404forest.com/api/saveCanvas',
       data: {
         hash: this.props.fileInfo.hash,
         title: this.props.title,
@@ -121,7 +121,7 @@ class Nav extends React.Component<NavProps> {
 
     let result = await http.request({
       method: 'POST',
-      url: 'https://api.webgl.run/saveCanvas',
+      url: 'https://webgl.404forest.com/api/saveCanvas',
       data: {
         hash: '',
         title: this.props.title,
@@ -202,7 +202,7 @@ class Nav extends React.Component<NavProps> {
   logout = async () => {
     let result = await http.request({
       method: 'get',
-      url: 'https://api.webgl.run/logout',
+      url: 'https://webgl.404forest.com/api/logout',
     })
     if(result.data.success) {
       message.success('Log out successfully, refreshing...', () => {

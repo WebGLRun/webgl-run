@@ -74,7 +74,7 @@ class Index extends React.Component<IndexProps> {
       if(this.props.fileInfo.hash !== this.props.match.params.canvasHash) {
         let result = await http.request({
           method: 'get',
-          url: 'https://api.webgl.run/getCanvas',
+          url: 'https://webgl.404forest.com/api/getCanvas',
           params: {
             hash: this.props.match.params.canvasHash
           }
@@ -106,7 +106,7 @@ class Index extends React.Component<IndexProps> {
       if(this.props.match.params.listHash !== this.props.listInfo.list.hash) {
         let result = await http.request({
           method: 'get',
-          url: 'https://api.webgl.run/getList',
+          url: 'https://webgl.404forest.com/api/getList',
           params: {
             hash: this.props.match.params.listHash
           }

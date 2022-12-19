@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
     }
     let result = await http.request({
       method: 'get',
-      url: 'https://api.webgl.run/getProfile',
+      url: 'https://webgl.404forest.com/api/getProfile',
       params: {
         id: Number(id)
       }
@@ -96,7 +96,7 @@ class Dashboard extends React.Component {
         return new Promise((res, rej) => {
           http.request({
             method: 'post',
-            url: 'https://api.webgl.run/deleteCanvas',
+            url: 'https://webgl.404forest.com/api/deleteCanvas',
             data: {
               id: Number(id),
               hash
@@ -134,7 +134,7 @@ class Dashboard extends React.Component {
         return new Promise((res, rej) => {
           http.request({
             method: 'post',
-            url: 'https://api.webgl.run/deleteList',
+            url: 'https://webgl.404forest.com/api/deleteList',
             data: {
               id: Number(id),
               hash
@@ -163,7 +163,7 @@ class Dashboard extends React.Component {
     }
     let result = await http.request({
       method: 'post',
-      url: 'https://api.webgl.run/saveList',
+      url: 'https://webgl.404forest.com/api/saveList',
       data: {
         creatorId: Number(id),
         hash: this.state.listHash,

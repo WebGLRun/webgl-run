@@ -121,7 +121,7 @@ class Sidebar extends React.Component<SidebarProps> {
   getCanvasByHash = async (hash: string) => {
     let result = await http.request({
       method: 'get',
-      url: 'https://api.webgl.run/getCanvas',
+      url: 'https://webgl.404forest.com/api/getCanvas',
       params: {
         hash: hash
       }
