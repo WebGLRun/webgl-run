@@ -26,7 +26,7 @@ class OAuth extends React.Component<OAuthProps> {
       if(params.code) {
         let result = await http.request({
           method: 'POST',
-          url: 'https://api.webgl.run/oauth/github',
+          url: 'https://webgl.404forest.com/oauth/github',
           data: {
             code: params.code
           }
