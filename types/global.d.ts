@@ -66,7 +66,8 @@ interface RootState {
     rightHorizontalDivider: {
       [propName: number]: number
     }
-  }
+  },
+  showShader: boolean;
 }
 
 interface shaderEditorType {

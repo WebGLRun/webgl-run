@@ -61,6 +61,7 @@ const initialState: RootState = {
       [1]: 250
     }
   },
+  showShader: true,
   result: {
     content: generateResult({
       html: '',
@@ -238,6 +239,13 @@ const reducer = (state: RootState = initialState, action: Action) => {
       return update(state, {
         mode: {
           $set: action.mode
+        }
+      })
+    }
+    case(types.SET_SHOW_SHADER): {
+      return update(state, {
+        showShader: {
+          $set: action.showShader
         }
       })
     }

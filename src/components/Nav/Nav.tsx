@@ -4,7 +4,7 @@ import {connect, Dispatch} from 'react-redux'
 import {generateRandomString, popup} from '../../utils/utils'
 import {generateResult} from '../../utils/generateResult'
 import {message, Dropdown, Menu, Icon} from 'antd'
-import {setUser, setTitle} from '../../store/actions'
+import {setUser, setTitle, setShowShader} from '../../store/actions'
 import http from '../../api/http'
 import 'antd/lib/message/style/index.css'
 import 'antd/lib/menu/style/index.css'
@@ -18,8 +18,10 @@ interface NavProps {
   creator: CreatorInfo,
   editor: any,
   canvasHash: string,
+  showShader: boolean,
   setUser: Function,
-  setTitle: Function
+  setTitle: Function,
+  setShowShader: Function,
 }
 
 const mapStateToProps = (state: RootState) => {
@@ -28,7 +30,8 @@ const mapStateToProps = (state: RootState) => {
     user: state.user,
     fileInfo: state.fileInfo,
     creator: state.creator,
-    editor: state.editor
+    editor: state.editor,
+    showShader: state.showShader,
   }
 }
 
@@ -39,6 +42,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     setTitle(title: string) {
       dispatch(setTitle(title))
+    },
+    setShowShader(showShader: boolean) {
+      dispatch(setShowShader(showShader))
     }
   }
 }
@@ -252,6 +258,10 @@ class Nav extends React.Component<NavProps> {
     }
   }
 
+  changeShowShaderHandler(e: any) {
+    this.props.setShowShader(e.target.checked)
+  }
+
   render() {
     const menu = (
       <Menu onClick={this.dropDownClickHandler}>
@@ -323,6 +333,10 @@ class Nav extends React.Component<NavProps> {
         </p>
         <p className="title">{title}{editIcon}</p>
         <div className="nav-tool">
+          <div className="show-shader-wrap">
+            <input type="checkbox" checked={this.props.showShader} onChange={(e) => { this.changeShowShaderHandler(e) }} id="showShaderCheckbox"></input>
+            <label htmlFor="showShaderCheckbox">show shader</label>
+          </div>
           <span className="tool-button" onClick={newClickHandler}>New</span>
           {save}
           {fork}

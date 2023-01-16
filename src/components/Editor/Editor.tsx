@@ -18,7 +18,8 @@ interface EditorProps {
   },
   setVerticalDividerPosition: Function,
   setLeftHorizontalDividerPosition: Function,
-  setRightHorizontalDividerPosition: Function
+  setRightHorizontalDividerPosition: Function,
+  showShader: boolean,
 }
 
 interface EditorStates {
@@ -33,7 +34,8 @@ const mapStateToProps = (state: RootState) => {
   return {
     verticalDivider: state.dividerPosition.verticalDivider,
     leftHorizontalDivider: state.dividerPosition.leftHorizontalDivider,
-    rightHorizontalDivider: state.dividerPosition.rightHorizontalDivider
+    rightHorizontalDivider: state.dividerPosition.rightHorizontalDivider,
+    showShader: state.showShader,
   }
 }
 
@@ -218,11 +220,13 @@ class Editor extends React.Component<EditorProps> {
           <div className="editor-left-panel-item" ref={ref => this.leftPanelRefs[0] = ref} style={{height: this.props.leftHorizontalDivider[0]}}>
             <HTMLEditor showTitle={true}></HTMLEditor>
           </div>
-          <div className="editor-horizontal-divider" onMouseDown={e => this.leftHorizontalDividerMouseDownHandler(e, 0)}></div>
-          <div className="editor-left-panel-item" ref={ref => this.leftPanelRefs[1] = ref} style={{height: this.props.leftHorizontalDivider[1]}}>
-            <GLSLEditor name="vertexShader" showTitle={true}></GLSLEditor>
-          </div>
-          <div className="editor-horizontal-divider" onMouseDown={e => this.leftHorizontalDividerMouseDownHandler(e, 1)}></div>
+          { this.props.showShader && (<>
+            <div className="editor-horizontal-divider" onMouseDown={e => this.leftHorizontalDividerMouseDownHandler(e, 0)}></div>
+            <div className="editor-left-panel-item" ref={ref => this.leftPanelRefs[1] = ref} style={{height: this.props.leftHorizontalDivider[1]}}>
+              <GLSLEditor name="vertexShader" showTitle={true}></GLSLEditor>
+            </div>
+          </>) }
+          <div className="editor-horizontal-divider" onMouseDown={e => this.leftHorizontalDividerMouseDownHandler(e, this.props.showShader ?  1 : 0)}></div>
           <div className="editor-left-panel-item">
             <JSEditor showTitle={true}></JSEditor>
           </div>
@@ -232,11 +236,13 @@ class Editor extends React.Component<EditorProps> {
           <div className="editor-right-panel-item" ref={ref => this.rightPanelRefs[0] = ref} style={{height: this.props.rightHorizontalDivider[0]}}>
             <CSSEditor showTitle={true}></CSSEditor>
           </div>
-          <div className="editor-horizontal-divider" onMouseDown={e => this.rightHorizontalDividerMouseDownHandler(e, 0)}></div>
-          <div className="editor-right-panel-item" ref={ref => this.rightPanelRefs[1] = ref} style={{height: this.props.rightHorizontalDivider[1]}}>
-            <GLSLEditor name="fragmentShader" showTitle={true}></GLSLEditor>
-          </div>
-          <div className="editor-horizontal-divider" onMouseDown={e => this.rightHorizontalDividerMouseDownHandler(e, 1)}></div>
+          { this.props.showShader && (<>
+            <div className="editor-horizontal-divider" onMouseDown={e => this.rightHorizontalDividerMouseDownHandler(e, 0)}></div>
+            <div className="editor-right-panel-item" ref={ref => this.rightPanelRefs[1] = ref} style={{height: this.props.rightHorizontalDivider[1]}}>
+              <GLSLEditor name="fragmentShader" showTitle={true}></GLSLEditor>
+            </div>
+          </>) }
+          <div className="editor-horizontal-divider" onMouseDown={e => this.rightHorizontalDividerMouseDownHandler(e, this.props.showShader ? 1 : 0)}></div>
           <div className="editor-right-panel-item">
             {(this.state.activeIndex !== -1) && <div className="editor-result-mask"></div>}
             <Result showTitle={true}></Result>

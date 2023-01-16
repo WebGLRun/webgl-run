@@ -112,6 +112,13 @@ export function setCreator(creator: CreatorInfo) {
   }
 }
 
+export function setShowShader(showShader: boolean) {
+  return {
+    type: types.SET_SHOW_SHADER,
+    showShader,
+  }
+}
+
 export function resetStore() {
   return {
     type: types.RESET_STORE
