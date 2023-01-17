@@ -33,7 +33,7 @@ class Result extends React.Component<ResultProps & passedProps> {
 
   state: ResultState = {
     iframe: null,
-    showConsole: false,
+    showConsole: true,
     fullScreen: false,
     showMeter: false
   }
@@ -135,6 +135,11 @@ class Result extends React.Component<ResultProps & passedProps> {
     ;(window as any).hideMeter = this.hideMeter
     this.state.iframe = new Iframe(this.refs.resultHook as HTMLElement)
     this.state.iframe.setHTML(this.props.result)
+    setTimeout(() => {
+      if(this.state.showConsole) {
+        (this.state.iframe as any).$dom.contentWindow.vConsole.show()
+      }
+    }, 100);
   }
 
   componentDidUpdate(prevProps: ResultProps) {

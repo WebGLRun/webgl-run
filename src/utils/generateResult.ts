@@ -23,8 +23,9 @@ const htmlTemplate = `<!DOCTYPE html>
     <style>
       body {margin: 0;padding: 0;}
       #__vconsole .vc-mask {display: none!important}
-      #__vconsole .vc-panel {min-height: 250px; transition: none!important;}
-      #__vconsole .vc-switch {display: none;}
+      #__vconsole .vc-panel {min-height: 300px; transition: none!important;}
+      #__vconsole .vc-switch {display: none!important;}
+      #__vconsole .vc-filter {display: none!important;}
     </style>
     <style>{{css}}</style>
   </head>
@@ -32,7 +33,7 @@ const htmlTemplate = `<!DOCTYPE html>
     {{html}}
     <script>
       // init vConsole
-      var vConsole = new VConsole({defaultPlugins: []})
+      var vConsole = new VConsole({defaultPlugins: [], theme: 'dark'})
       var myPlugin = new VConsole.VConsolePlugin('my_plugin', 'My Plugin')
       vConsole.addPlugin(myPlugin)
       myPlugin.on('showConsole', function() {window.parent.showConsole()})
